@@ -46,11 +46,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mock Auth Session middleware (simplifies frontend login in standard preview iframe)
+// Mock Auth Session middleware
 let currentUser: User | null = null;
-// Default to logged-in "Pengawas Gizi" to prevent roadblocks for the reviewer, but allow switching!
-const db_init = getDb();
-currentUser = db_init.users.find(u => u.username === "pengawas") || db_init.users[1];
 
 app.use((req, res, next) => {
   // Allow overriding logged-in user with a header for testing
