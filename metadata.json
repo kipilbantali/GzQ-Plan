@@ -1,0 +1,6 @@
+{
+  "name": "GzQ Plan",
+  "description": "Aplikasi perencanaan gizi, perhitungan siklus menu, kontrol HPP, dan manajemen pengadaan bahan makanan untuk Pengawas Gizi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,3122 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "System Admin",
+      "role": "Administrator",
+      "email": "admin@gzqplan.com",
+      "status": "Active",
+      "username": "admin",
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "last_login_at": "2026-06-28T10:41:08.279Z"
+    },
+    {
+      "id": 2,
+      "name": "Pengawas Gizi",
+      "role": "Pengawas Gizi",
+      "email": "pengawas@gzqplan.com",
+      "status": "Active",
+      "username": "pengawas",
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "last_login_at": "2026-06-28T10:44:12.817Z"
+    },
+    {
+      "id": 3,
+      "name": "Vian Noer Afdholina",
+      "role": "Pengawas Gizi",
+      "email": "viannoerafdholina@gmail.com",
+      "status": "Active",
+      "password": "viannoerafd123",
+      "username": "viannoerafd",
+      "created_at": "2026-06-28T08:08:22.197Z",
+      "updated_at": "2026-06-28T08:37:00.271Z",
+      "last_login_at": "2026-06-28T10:14:39.023Z"
+    }
+  ],
+  "periods": [
+    {
+      "id": 1,
+      "name": "Periode Operasional Juli 2026",
+      "status": "Draft",
+      "end_date": "2026-07-14",
+      "created_at": "2026-06-28T07:42:38.862Z",
+      "start_date": "2026-07-01",
+      "updated_at": "2026-06-28T07:42:38.862Z"
+    }
+  ],
+  "menu_days": [
+    {
+      "id": 1,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 1,
+      "calendar_date": "2026-07-01",
+      "distribution_day": true
+    },
+    {
+      "id": 2,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 2,
+      "calendar_date": "2026-07-02",
+      "distribution_day": true
+    },
+    {
+      "id": 3,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 3,
+      "calendar_date": "2026-07-03",
+      "distribution_day": true
+    },
+    {
+      "id": 4,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 4,
+      "calendar_date": "2026-07-04",
+      "distribution_day": true
+    },
+    {
+      "id": 5,
+      "status": "Holiday",
+      "period_id": 1,
+      "day_number": 0,
+      "calendar_date": "2026-07-05",
+      "distribution_day": false
+    },
+    {
+      "id": 6,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 5,
+      "calendar_date": "2026-07-06",
+      "distribution_day": true
+    },
+    {
+      "id": 7,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 6,
+      "calendar_date": "2026-07-07",
+      "distribution_day": true
+    },
+    {
+      "id": 8,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 7,
+      "calendar_date": "2026-07-08",
+      "distribution_day": true
+    },
+    {
+      "id": 9,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 8,
+      "calendar_date": "2026-07-09",
+      "distribution_day": true
+    },
+    {
+      "id": 10,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 9,
+      "calendar_date": "2026-07-10",
+      "distribution_day": true
+    },
+    {
+      "id": 11,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 10,
+      "calendar_date": "2026-07-11",
+      "distribution_day": true
+    },
+    {
+      "id": 12,
+      "status": "Holiday",
+      "period_id": 1,
+      "day_number": 0,
+      "calendar_date": "2026-07-12",
+      "distribution_day": false
+    },
+    {
+      "id": 13,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 11,
+      "calendar_date": "2026-07-13",
+      "distribution_day": true
+    },
+    {
+      "id": 14,
+      "status": "Pending",
+      "period_id": 1,
+      "day_number": 12,
+      "calendar_date": "2026-07-14",
+      "distribution_day": true
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": 47,
+      "user_id": 2,
+      "user_name": "Pengawas Gizi",
+      "module": "MasterData",
+      "action": "Create Ingredient",
+      "table_name": "ingredients",
+      "record_id": 25,
+      "old_values": null,
+      "new_values": {
+        "id": 25,
+        "code": "B06",
+        "category_id": 1,
+        "name": "Ikan Lele",
+        "bdd": 80,
+        "energy": 204,
+        "protein": 14.93,
+        "fat": 12.35,
+        "carbohydrate": 7.26,
+        "fiber": 0,
+        "price": 0,
+        "created_at": "2026-06-28T10:47:23.900Z",
+        "updated_at": "2026-06-28T10:47:23.900Z"
+      },
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:47:24.467Z"
+    },
+    {
+      "id": 46,
+      "user_id": 2,
+      "user_name": "Pengawas Gizi",
+      "module": "Authentication",
+      "action": "Login",
+      "table_name": "users",
+      "record_id": 2,
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:44:12.820Z"
+    },
+    {
+      "id": 45,
+      "user_id": 1,
+      "user_name": "System Admin",
+      "module": "Authentication",
+      "action": "Logout",
+      "table_name": "users",
+      "record_id": 1,
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:43:20.353Z"
+    },
+    {
+      "id": 44,
+      "user_id": 1,
+      "user_name": "System Admin",
+      "module": "MasterData",
+      "action": "Update Ingredient",
+      "table_name": "ingredients",
+      "record_id": 24,
+      "old_values": {
+        "id": 24,
+        "bdd": 100,
+        "fat": 3,
+        "code": "F03",
+        "name": "Susu Prenagen ",
+        "fiber": 3,
+        "price": 0,
+        "energy": 120,
+        "protein": 4,
+        "created_at": "2026-06-28T10:33:14.754Z",
+        "updated_at": "2026-06-28T10:40:43.985Z",
+        "category_id": 1,
+        "carbohydrate": 17
+      },
+      "new_values": {
+        "id": 24,
+        "bdd": 100,
+        "fat": 3,
+        "code": "F03",
+        "name": "Susu Prenagen ",
+        "fiber": 3,
+        "price": 0,
+        "energy": 120,
+        "protein": 4,
+        "created_at": "2026-06-28T10:33:14.754Z",
+        "updated_at": "2026-06-28T10:41:25.255Z",
+        "category_id": 1,
+        "carbohydrate": 17
+      },
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:41:25.588Z"
+    },
+    {
+      "id": 43,
+      "user_id": 1,
+      "user_name": "System Admin",
+      "module": "Authentication",
+      "action": "Login",
+      "table_name": "users",
+      "record_id": 1,
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:41:08.280Z"
+    },
+    {
+      "id": 42,
+      "user_id": 2,
+      "user_name": "Pengawas Gizi",
+      "module": "Authentication",
+      "action": "Logout",
+      "table_name": "users",
+      "record_id": 2,
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:40:59.302Z"
+    },
+    {
+      "id": 41,
+      "user_id": 2,
+      "user_name": "Pengawas Gizi",
+      "module": "MasterData",
+      "action": "Update Ingredient",
+      "table_name": "ingredients",
+      "record_id": 24,
+      "old_values": {
+        "id": 24,
+        "bdd": 100,
+        "fat": 3,
+        "code": "F03",
+        "name": "Susu Prenagen ",
+        "fiber": 3,
+        "price": 0,
+        "energy": 120,
+        "protein": 4,
+        "created_at": "2026-06-28T10:33:14.754Z",
+        "updated_at": "2026-06-28T10:33:14.754Z",
+        "category_id": 1,
+        "carbohydrate": 17
+      },
+      "new_values": {
+        "id": 24,
+        "bdd": 100,
+        "fat": 3,
+        "code": "F03",
+        "name": "Susu Prenagen ",
+        "fiber": 3,
+        "price": 0,
+        "energy": 120,
+        "protein": 4,
+        "created_at": "2026-06-28T10:33:14.754Z",
+        "updated_at": "2026-06-28T10:40:43.985Z",
+        "category_id": 1,
+        "carbohydrate": 17
+      },
+      "ip_address": "127.0.0.1",
+      "user_agent": "GzQ Plan App Engine",
+      "created_at": "2026-06-28T10:40:44.661Z"
+    },
+    {
+      "id": 40,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi",
+      "created_at": "2026-06-28T10:14:27.448Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 39,
+      "action": "Finalize Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi",
+      "created_at": "2026-06-28T09:30:56.101Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 38,
+      "action": "Change Menu Status to Draft",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi",
+      "created_at": "2026-06-28T09:30:53.000Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 37,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi",
+      "created_at": "2026-06-28T08:51:32.025Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 36,
+      "action": "Login",
+      "module": "Authentication",
+      "user_id": 3,
+      "record_id": 3,
+      "user_name": "Vian Noer Afdholina",
+      "created_at": "2026-06-28T08:42:23.200Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 35,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:41:21.231Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 34,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 3,
+      "record_id": 3,
+      "user_name": "Vian Noer Afdholina",
+      "created_at": "2026-06-28T08:37:33.813Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 33,
+      "action": "Login",
+      "module": "Authentication",
+      "user_id": 3,
+      "record_id": 3,
+      "user_name": "Vian Noer Afdholina",
+      "created_at": "2026-06-28T08:37:17.163Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 32,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 1,
+      "record_id": 1,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:37:03.632Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 31,
+      "action": "Update User",
+      "module": "MasterData",
+      "user_id": 1,
+      "record_id": 3,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:37:00.272Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 3,
+        "name": "Vian Noer Afdholina",
+        "role": "Pengawas Gizi",
+        "email": "viannoerafdholina@gmail.com",
+        "status": "Active",
+        "password": "viannoerafd123",
+        "username": "viannoerafd",
+        "created_at": "2026-06-28T08:08:22.197Z",
+        "updated_at": "2026-06-28T08:37:00.271Z"
+      },
+      "old_values": {
+        "id": 3,
+        "name": "Vian Noer Afdholina",
+        "role": "Pengawas Gizi",
+        "email": "viannoerafdholina@gmail.com",
+        "status": "Active",
+        "username": "viannoerafd",
+        "created_at": "2026-06-28T08:08:22.197Z",
+        "updated_at": "2026-06-28T08:08:22.197Z"
+      },
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 30,
+      "action": "Login",
+      "module": "Authentication",
+      "user_id": 1,
+      "record_id": 1,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:36:13.217Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 29,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:36:06.378Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 28,
+      "action": "Login",
+      "module": "Authentication",
+      "user_id": 1,
+      "record_id": 1,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:23:04.024Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 27,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:22:55.201Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 26,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 6,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:19:49.158Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 6,
+        "status": "Draft",
+        "menu_name": "Siklus Menu Kelompok SD Kelas 4-6 / SMP",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 6
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 6
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 6
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 6
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 6
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 6
+          }
+        ],
+        "created_at": "2026-06-28T08:19:49.157Z",
+        "updated_at": "2026-06-28T08:19:49.157Z",
+        "menu_day_id": 2,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 3
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 25,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 5,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:19:33.700Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 5,
+        "status": "Draft",
+        "menu_name": "Siklus Menu Kelompok Ibu Hamil / Menyusui",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 5
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 5
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 5
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 5
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 5
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 5
+          }
+        ],
+        "created_at": "2026-06-28T08:19:33.699Z",
+        "updated_at": "2026-06-28T08:19:33.699Z",
+        "menu_day_id": 2,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 4
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 24,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 4,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:19:17.209Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 4,
+        "name": "Ibu Hamil / Menyusui",
+        "fat_max": 80,
+        "fat_min": 70,
+        "fiber_max": 35,
+        "fiber_min": 30,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 760,
+        "energy_min": 720,
+        "updated_at": "2026-06-28T08:19:17.209Z",
+        "protein_max": 85,
+        "protein_min": 75,
+        "carbohydrate_max": 380,
+        "carbohydrate_min": 340,
+        "beneficiary_count": 30
+      },
+      "old_values": {
+        "id": 4,
+        "name": "Ibu Hamil / Menyusui",
+        "fat_max": 80,
+        "fat_min": 70,
+        "fiber_max": 35,
+        "fiber_min": 30,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2600,
+        "energy_min": 2400,
+        "updated_at": "2026-06-28T08:19:02.521Z",
+        "protein_max": 85,
+        "protein_min": 75,
+        "carbohydrate_max": 380,
+        "carbohydrate_min": 340,
+        "beneficiary_count": 30
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 23,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 4,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:19:02.522Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 4,
+        "name": "Ibu Hamil / Menyusui",
+        "fat_max": 80,
+        "fat_min": 70,
+        "fiber_max": 35,
+        "fiber_min": 30,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2600,
+        "energy_min": 2400,
+        "updated_at": "2026-06-28T08:19:02.521Z",
+        "protein_max": 85,
+        "protein_min": 75,
+        "carbohydrate_max": 380,
+        "carbohydrate_min": 340,
+        "beneficiary_count": 30
+      },
+      "old_values": {
+        "id": 4,
+        "name": "Ibu Hamil / Menyusui",
+        "fat_max": 80,
+        "fat_min": 70,
+        "fiber_max": 35,
+        "fiber_min": 30,
+        "hpp_limit": 25000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2600,
+        "energy_min": 2400,
+        "updated_at": "2026-06-28T07:42:38.859Z",
+        "protein_max": 85,
+        "protein_min": 75,
+        "carbohydrate_max": 380,
+        "carbohydrate_min": 340,
+        "beneficiary_count": 30
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 22,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 3,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:18:29.506Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 3,
+        "name": "SD Kelas 4-6 / SMP",
+        "fat_max": 70,
+        "fat_min": 60,
+        "fiber_max": 30,
+        "fiber_min": 25,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 720,
+        "energy_min": 450,
+        "updated_at": "2026-06-28T08:18:29.505Z",
+        "protein_max": 70,
+        "protein_min": 60,
+        "carbohydrate_max": 320,
+        "carbohydrate_min": 280,
+        "beneficiary_count": 120
+      },
+      "old_values": {
+        "id": 3,
+        "name": "SD Kelas 4-6 / SMP",
+        "fat_max": 70,
+        "fat_min": 60,
+        "fiber_max": 30,
+        "fiber_min": 25,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2100,
+        "energy_min": 2000,
+        "updated_at": "2026-06-28T08:18:10.953Z",
+        "protein_max": 70,
+        "protein_min": 60,
+        "carbohydrate_max": 320,
+        "carbohydrate_min": 280,
+        "beneficiary_count": 120
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 21,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 3,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:18:10.953Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 3,
+        "name": "SD Kelas 4-6 / SMP",
+        "fat_max": 70,
+        "fat_min": 60,
+        "fiber_max": 30,
+        "fiber_min": 25,
+        "hpp_limit": 10000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2100,
+        "energy_min": 2000,
+        "updated_at": "2026-06-28T08:18:10.953Z",
+        "protein_max": 70,
+        "protein_min": 60,
+        "carbohydrate_max": 320,
+        "carbohydrate_min": 280,
+        "beneficiary_count": 120
+      },
+      "old_values": {
+        "id": 3,
+        "name": "SD Kelas 4-6 / SMP",
+        "fat_max": 70,
+        "fat_min": 60,
+        "fiber_max": 30,
+        "fiber_min": 25,
+        "hpp_limit": 22000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 2100,
+        "energy_min": 2000,
+        "updated_at": "2026-06-28T07:42:38.859Z",
+        "protein_max": 70,
+        "protein_min": 60,
+        "carbohydrate_max": 320,
+        "carbohydrate_min": 280,
+        "beneficiary_count": 120
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 20,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:17:49.832Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 2,
+        "name": "PAUD / TK / SD Kelas 1-3",
+        "fat_max": 60,
+        "fat_min": 50,
+        "fiber_max": 25,
+        "fiber_min": 20,
+        "hpp_limit": 8000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 530,
+        "energy_min": 420,
+        "updated_at": "2026-06-28T08:17:49.831Z",
+        "protein_max": 55,
+        "protein_min": 45,
+        "carbohydrate_max": 250,
+        "carbohydrate_min": 220,
+        "beneficiary_count": 80
+      },
+      "old_values": {
+        "id": 2,
+        "name": "PAUD / TK / SD Kelas 1-3",
+        "fat_max": 60,
+        "fat_min": 50,
+        "fiber_max": 25,
+        "fiber_min": 20,
+        "hpp_limit": 18000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 1700,
+        "energy_min": 1600,
+        "updated_at": "2026-06-28T07:42:38.859Z",
+        "protein_max": 55,
+        "protein_min": 45,
+        "carbohydrate_max": 250,
+        "carbohydrate_min": 220,
+        "beneficiary_count": 80
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 19,
+      "action": "Update Group",
+      "module": "MasterData",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:17:16.370Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 1,
+        "name": "Balita (1-5 Tahun)",
+        "fat_max": 34,
+        "fat_min": 28,
+        "fiber_max": 20,
+        "fiber_min": 15,
+        "hpp_limit": 8000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 320,
+        "energy_min": 230,
+        "updated_at": "2026-06-28T08:17:16.368Z",
+        "protein_max": 30,
+        "protein_min": 20,
+        "carbohydrate_max": 220,
+        "carbohydrate_min": 180,
+        "beneficiary_count": 100
+      },
+      "old_values": {
+        "id": 1,
+        "name": "Balita (1-5 Tahun)",
+        "fat_max": 50,
+        "fat_min": 40,
+        "fiber_max": 20,
+        "fiber_min": 15,
+        "hpp_limit": 15000,
+        "created_at": "2026-06-28T07:42:38.859Z",
+        "energy_max": 1450,
+        "energy_min": 1350,
+        "updated_at": "2026-06-28T07:42:38.859Z",
+        "protein_max": 45,
+        "protein_min": 35,
+        "carbohydrate_max": 220,
+        "carbohydrate_min": 180,
+        "beneficiary_count": 50
+      },
+      "table_name": "beneficiary_groups",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 18,
+      "action": "Create User",
+      "module": "MasterData",
+      "user_id": 1,
+      "record_id": 3,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:08:22.198Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 3,
+        "name": "Vian Noer Afdholina",
+        "role": "Pengawas Gizi",
+        "email": "viannoerafdholina@gmail.com",
+        "status": "Active",
+        "username": "viannoerafd",
+        "created_at": "2026-06-28T08:08:22.197Z",
+        "updated_at": "2026-06-28T08:08:22.197Z"
+      },
+      "old_values": null,
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 17,
+      "action": "Login",
+      "module": "Authentication",
+      "user_id": 1,
+      "record_id": 1,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T08:07:06.131Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 16,
+      "action": "Logout",
+      "module": "Authentication",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T08:06:57.907Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 15,
+      "action": "Finalize Procurement Order",
+      "module": "Procurement",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:58:56.555Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "procurement_orders",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 14,
+      "action": "Generate Procurement Order x6 items",
+      "module": "Procurement",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:38.629Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "procurement_orders",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 13,
+      "action": "Generate Procurement Order x6 items",
+      "module": "Procurement",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:34.718Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "procurement_orders",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 12,
+      "action": "Finalize Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 4,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:28.107Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 11,
+      "action": "Copy Menu from Group ID 3",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 4,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:24.953Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 10,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 4,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:24.748Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 4,
+        "status": "Draft",
+        "menu_name": "Salinan Menu",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 4
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 4
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 4
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 4
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 4
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 4
+          }
+        ],
+        "created_at": "2026-06-28T07:56:24.747Z",
+        "updated_at": "2026-06-28T07:56:24.747Z",
+        "menu_day_id": 1,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 4
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 9,
+      "action": "Finalize Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 3,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:56:19.358Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 8,
+      "action": "Copy Menu from Group ID 2",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 3,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:55:45.075Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 7,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 3,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:55:44.884Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 3,
+        "status": "Draft",
+        "menu_name": "Salinan Menu",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 3
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 3
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 3
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 3
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 3
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 3
+          }
+        ],
+        "created_at": "2026-06-28T07:55:44.884Z",
+        "updated_at": "2026-06-28T07:55:44.884Z",
+        "menu_day_id": 1,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 3
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 6,
+      "action": "Finalize Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:55:33.286Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 5,
+      "action": "Copy Menu from Group ID 1",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:54:48.420Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 4,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 2,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:54:48.156Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 2,
+        "status": "Draft",
+        "menu_name": "Salinan Menu",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 2
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 2
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 2
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 2
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 2
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 2
+          }
+        ],
+        "created_at": "2026-06-28T07:54:48.155Z",
+        "updated_at": "2026-06-28T07:54:48.155Z",
+        "menu_day_id": 1,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 2
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 3,
+      "action": "Finalize Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:54:39.388Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 2,
+      "action": "Create Menu Plan",
+      "module": "Planning",
+      "user_id": 2,
+      "record_id": 1,
+      "user_name": "Pengawas Gizi Operasional",
+      "created_at": "2026-06-28T07:44:54.463Z",
+      "ip_address": "127.0.0.1",
+      "new_values": {
+        "id": 1,
+        "status": "Draft",
+        "menu_name": "Siklus Menu Kelompok Balita (1-5 Tahun)",
+        "total_fat": 0,
+        "total_hpp": 0,
+        "components": [
+          {
+            "id": 1,
+            "name": "Makanan Pokok",
+            "items": [],
+            "sort_order": 0,
+            "component_id": 1,
+            "menu_plan_id": 1
+          },
+          {
+            "id": 2,
+            "name": "Lauk Hewani",
+            "items": [],
+            "sort_order": 1,
+            "component_id": 2,
+            "menu_plan_id": 1
+          },
+          {
+            "id": 3,
+            "name": "Lauk Nabati",
+            "items": [],
+            "sort_order": 2,
+            "component_id": 3,
+            "menu_plan_id": 1
+          },
+          {
+            "id": 4,
+            "name": "Sayur",
+            "items": [],
+            "sort_order": 3,
+            "component_id": 4,
+            "menu_plan_id": 1
+          },
+          {
+            "id": 5,
+            "name": "Buah",
+            "items": [],
+            "sort_order": 4,
+            "component_id": 5,
+            "menu_plan_id": 1
+          },
+          {
+            "id": 6,
+            "name": "Susu",
+            "items": [],
+            "sort_order": 5,
+            "component_id": 6,
+            "menu_plan_id": 1
+          }
+        ],
+        "created_at": "2026-06-28T07:44:54.461Z",
+        "updated_at": "2026-06-28T07:44:54.461Z",
+        "menu_day_id": 1,
+        "total_fiber": 0,
+        "total_energy": 0,
+        "total_protein": 0,
+        "total_carbohydrate": 0,
+        "beneficiary_group_id": 1
+      },
+      "old_values": null,
+      "table_name": "menu_plans",
+      "user_agent": "GzQ Plan App Engine"
+    },
+    {
+      "id": 1,
+      "action": "Initialize DB",
+      "module": "Authentication",
+      "user_id": 1,
+      "user_name": "System Admin",
+      "created_at": "2026-06-28T07:42:38.862Z",
+      "ip_address": "127.0.0.1",
+      "table_name": "users",
+      "user_agent": "Server Startup"
+    }
+  ],
+  "menu_plans": [
+    {
+      "id": 1,
+      "status": "Final",
+      "menu_name": "Siklus Menu Kelompok Balita",
+      "total_fat": 15.2,
+      "total_hpp": 7999,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 1782632703000.1892,
+              "bdd": 100,
+              "fat": 0.4,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.2,
+              "energy": 180,
+              "protein": 3.4,
+              "net_weight": 50,
+              "carbohydrate": 39.5,
+              "gross_weight": 50,
+              "ingredient_id": 1,
+              "ingredient_cost": 700,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 1
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 1782632713310.8098,
+              "bdd": 58,
+              "fat": 12.5,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "fiber": 0,
+              "energy": 149,
+              "protein": 9.1,
+              "net_weight": 50,
+              "carbohydrate": 0,
+              "gross_weight": 86.21,
+              "ingredient_id": 4,
+              "ingredient_cost": 3276,
+              "component_plan_id": 2
+            }
+          ],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 1
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 1782633224978.7395,
+              "bdd": 100,
+              "fat": 1.9,
+              "code": "C01",
+              "name": "Tempe Kedelai Murni",
+              "fiber": 0.4,
+              "energy": 37.5,
+              "protein": 3.5,
+              "net_weight": 25,
+              "carbohydrate": 2.3,
+              "gross_weight": 25,
+              "ingredient_id": 9,
+              "ingredient_cost": 300,
+              "component_plan_id": 3
+            }
+          ],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 1
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 1782633235232.418,
+              "bdd": 90,
+              "fat": 0,
+              "code": "D05",
+              "name": "Kol / Kubis",
+              "fiber": 0.3,
+              "energy": 4.4,
+              "protein": 0.3,
+              "net_weight": 20,
+              "carbohydrate": 1.1,
+              "gross_weight": 22.22,
+              "ingredient_id": 16,
+              "ingredient_cost": 200,
+              "component_plan_id": 4
+            },
+            {
+              "id": 1782633246594.0732,
+              "bdd": 88,
+              "fat": 0.1,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "fiber": 0.2,
+              "energy": 5.2,
+              "protein": 0.2,
+              "net_weight": 20,
+              "carbohydrate": 1,
+              "gross_weight": 22.73,
+              "ingredient_id": 12,
+              "ingredient_cost": 341,
+              "component_plan_id": 4
+            }
+          ],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 1
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 1782633260067.3428,
+              "bdd": 88,
+              "fat": 0.3,
+              "code": "E03",
+              "name": "Apel Fuji",
+              "fiber": 2.1,
+              "energy": 46.4,
+              "protein": 0.2,
+              "net_weight": 80,
+              "carbohydrate": 11.9,
+              "gross_weight": 90.91,
+              "ingredient_id": 19,
+              "ingredient_cost": 3182,
+              "component_plan_id": 5
+            }
+          ],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 1
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 1
+        }
+      ],
+      "created_at": "2026-06-28T07:44:54.461Z",
+      "updated_at": "2026-06-28T09:30:56.100Z",
+      "menu_day_id": 1,
+      "total_fiber": 3.2,
+      "total_energy": 422.5,
+      "total_protein": 16.7,
+      "total_carbohydrate": 55.8,
+      "beneficiary_group_id": 1
+    },
+    {
+      "id": 2,
+      "status": "Final",
+      "menu_name": "Siklus Menu Kelompok Balita",
+      "total_fat": 15.9,
+      "total_hpp": 8544,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 100,
+              "bdd": 100,
+              "fat": 0.5,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.2,
+              "energy": 270,
+              "protein": 5.1,
+              "net_weight": 75,
+              "carbohydrate": 59.2,
+              "gross_weight": 75,
+              "ingredient_id": 1,
+              "ingredient_cost": 1050,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 2
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 200,
+              "bdd": 58,
+              "fat": 12.5,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "fiber": 0,
+              "energy": 149,
+              "protein": 9.1,
+              "net_weight": 50,
+              "carbohydrate": 0,
+              "gross_weight": 86.21,
+              "ingredient_id": 4,
+              "ingredient_cost": 3276,
+              "component_plan_id": 2
+            }
+          ],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 2
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 300,
+              "bdd": 100,
+              "fat": 2.3,
+              "code": "C01",
+              "name": "Tempe Kedelai Murni",
+              "fiber": 0.4,
+              "energy": 45,
+              "protein": 4.2,
+              "net_weight": 30,
+              "carbohydrate": 2.7,
+              "gross_weight": 30,
+              "ingredient_id": 9,
+              "ingredient_cost": 360,
+              "component_plan_id": 3
+            }
+          ],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 2
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 400,
+              "bdd": 90,
+              "fat": 0.1,
+              "code": "D05",
+              "name": "Kol / Kubis",
+              "fiber": 0.3,
+              "energy": 5.5,
+              "protein": 0.4,
+              "net_weight": 25,
+              "carbohydrate": 1.3,
+              "gross_weight": 27.78,
+              "ingredient_id": 16,
+              "ingredient_cost": 250,
+              "component_plan_id": 4
+            },
+            {
+              "id": 401,
+              "bdd": 88,
+              "fat": 0.2,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "fiber": 0.2,
+              "energy": 6.5,
+              "protein": 0.3,
+              "net_weight": 25,
+              "carbohydrate": 1.2,
+              "gross_weight": 28.41,
+              "ingredient_id": 12,
+              "ingredient_cost": 426,
+              "component_plan_id": 4
+            }
+          ],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 2
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 500,
+              "bdd": 88,
+              "fat": 0.3,
+              "code": "E03",
+              "name": "Apel Fuji",
+              "fiber": 2.1,
+              "energy": 46.4,
+              "protein": 0.2,
+              "net_weight": 80,
+              "carbohydrate": 11.9,
+              "gross_weight": 90.91,
+              "ingredient_id": 19,
+              "ingredient_cost": 3182,
+              "component_plan_id": 5
+            }
+          ],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 2
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 2
+        }
+      ],
+      "created_at": "2026-06-28T07:54:48.155Z",
+      "updated_at": "2026-06-28T07:55:33.286Z",
+      "menu_day_id": 1,
+      "total_fiber": 3.2,
+      "total_energy": 522.4,
+      "total_protein": 19.3,
+      "total_carbohydrate": 76.3,
+      "beneficiary_group_id": 2
+    },
+    {
+      "id": 3,
+      "status": "Final",
+      "menu_name": "Siklus Menu Kelompok Balita",
+      "total_fat": 17.8,
+      "total_hpp": 9416,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 100,
+              "bdd": 100,
+              "fat": 0.7,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.3,
+              "energy": 360,
+              "protein": 6.8,
+              "net_weight": 100,
+              "carbohydrate": 78.9,
+              "gross_weight": 100,
+              "ingredient_id": 1,
+              "ingredient_cost": 1400,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 3
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 200,
+              "bdd": 58,
+              "fat": 13.8,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "fiber": 0,
+              "energy": 163.9,
+              "protein": 10,
+              "net_weight": 55,
+              "carbohydrate": 0,
+              "gross_weight": 94.83,
+              "ingredient_id": 4,
+              "ingredient_cost": 3603,
+              "component_plan_id": 2
+            }
+          ],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 3
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 300,
+              "bdd": 100,
+              "fat": 2.7,
+              "code": "C01",
+              "name": "Tempe Kedelai Murni",
+              "fiber": 0.5,
+              "energy": 52.5,
+              "protein": 4.9,
+              "net_weight": 35,
+              "carbohydrate": 3.2,
+              "gross_weight": 35,
+              "ingredient_id": 9,
+              "ingredient_cost": 420,
+              "component_plan_id": 3
+            }
+          ],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 3
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 400,
+              "bdd": 90,
+              "fat": 0.1,
+              "code": "D05",
+              "name": "Kol / Kubis",
+              "fiber": 0.4,
+              "energy": 6.6,
+              "protein": 0.4,
+              "net_weight": 30,
+              "carbohydrate": 1.6,
+              "gross_weight": 33.33,
+              "ingredient_id": 16,
+              "ingredient_cost": 300,
+              "component_plan_id": 4
+            },
+            {
+              "id": 401,
+              "bdd": 88,
+              "fat": 0.2,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "fiber": 0.3,
+              "energy": 7.8,
+              "protein": 0.3,
+              "net_weight": 30,
+              "carbohydrate": 1.4,
+              "gross_weight": 34.09,
+              "ingredient_id": 12,
+              "ingredient_cost": 511,
+              "component_plan_id": 4
+            }
+          ],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 3
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 500,
+              "bdd": 88,
+              "fat": 0.3,
+              "code": "E03",
+              "name": "Apel Fuji",
+              "fiber": 2.1,
+              "energy": 46.4,
+              "protein": 0.2,
+              "net_weight": 80,
+              "carbohydrate": 11.9,
+              "gross_weight": 90.91,
+              "ingredient_id": 19,
+              "ingredient_cost": 3182,
+              "component_plan_id": 5
+            }
+          ],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 3
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 3
+        }
+      ],
+      "created_at": "2026-06-28T07:55:44.884Z",
+      "updated_at": "2026-06-28T07:56:19.358Z",
+      "menu_day_id": 1,
+      "total_fiber": 3.6,
+      "total_energy": 637.2,
+      "total_protein": 22.6,
+      "total_carbohydrate": 97,
+      "beneficiary_group_id": 3
+    },
+    {
+      "id": 4,
+      "status": "Final",
+      "menu_name": "Siklus Menu Kelompok Balita",
+      "total_fat": 17.8,
+      "total_hpp": 9416,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 100,
+              "bdd": 100,
+              "fat": 0.7,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.3,
+              "energy": 360,
+              "protein": 6.8,
+              "net_weight": 100,
+              "carbohydrate": 78.9,
+              "gross_weight": 100,
+              "ingredient_id": 1,
+              "ingredient_cost": 1400,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 4
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 200,
+              "bdd": 58,
+              "fat": 13.8,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "fiber": 0,
+              "energy": 163.9,
+              "protein": 10,
+              "net_weight": 55,
+              "carbohydrate": 0,
+              "gross_weight": 94.83,
+              "ingredient_id": 4,
+              "ingredient_cost": 3603,
+              "component_plan_id": 2
+            }
+          ],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 4
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 300,
+              "bdd": 100,
+              "fat": 2.7,
+              "code": "C01",
+              "name": "Tempe Kedelai Murni",
+              "fiber": 0.5,
+              "energy": 52.5,
+              "protein": 4.9,
+              "net_weight": 35,
+              "carbohydrate": 3.2,
+              "gross_weight": 35,
+              "ingredient_id": 9,
+              "ingredient_cost": 420,
+              "component_plan_id": 3
+            }
+          ],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 4
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 400,
+              "bdd": 90,
+              "fat": 0.1,
+              "code": "D05",
+              "name": "Kol / Kubis",
+              "fiber": 0.4,
+              "energy": 6.6,
+              "protein": 0.4,
+              "net_weight": 30,
+              "carbohydrate": 1.6,
+              "gross_weight": 33.33,
+              "ingredient_id": 16,
+              "ingredient_cost": 300,
+              "component_plan_id": 4
+            },
+            {
+              "id": 401,
+              "bdd": 88,
+              "fat": 0.2,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "fiber": 0.3,
+              "energy": 7.8,
+              "protein": 0.3,
+              "net_weight": 30,
+              "carbohydrate": 1.4,
+              "gross_weight": 34.09,
+              "ingredient_id": 12,
+              "ingredient_cost": 511,
+              "component_plan_id": 4
+            }
+          ],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 4
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 500,
+              "bdd": 88,
+              "fat": 0.3,
+              "code": "E03",
+              "name": "Apel Fuji",
+              "fiber": 2.1,
+              "energy": 46.4,
+              "protein": 0.2,
+              "net_weight": 80,
+              "carbohydrate": 11.9,
+              "gross_weight": 90.91,
+              "ingredient_id": 19,
+              "ingredient_cost": 3182,
+              "component_plan_id": 5
+            }
+          ],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 4
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 4
+        }
+      ],
+      "created_at": "2026-06-28T07:56:24.747Z",
+      "updated_at": "2026-06-28T07:56:28.106Z",
+      "menu_day_id": 1,
+      "total_fiber": 3.6,
+      "total_energy": 637.2,
+      "total_protein": 22.6,
+      "total_carbohydrate": 97,
+      "beneficiary_group_id": 4
+    },
+    {
+      "id": 5,
+      "status": "Draft",
+      "menu_name": "Siklus Menu Kelompok Ibu Hamil / Menyusui",
+      "total_fat": 0.4,
+      "total_hpp": 700,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 1782634779009.8254,
+              "bdd": 100,
+              "fat": 0.4,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.2,
+              "energy": 180,
+              "protein": 3.4,
+              "net_weight": 50,
+              "carbohydrate": 39.5,
+              "gross_weight": 50,
+              "ingredient_id": 1,
+              "ingredient_cost": 700,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 5
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 5
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 5
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 5
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 5
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 5
+        }
+      ],
+      "created_at": "2026-06-28T08:19:33.699Z",
+      "updated_at": "2026-06-28T08:19:40.240Z",
+      "menu_day_id": 2,
+      "total_fiber": 0.2,
+      "total_energy": 180,
+      "total_protein": 3.4,
+      "total_carbohydrate": 39.5,
+      "beneficiary_group_id": 4
+    },
+    {
+      "id": 6,
+      "status": "Draft",
+      "menu_name": "Siklus Menu Kelompok SD Kelas 4-6 / SMP",
+      "total_fat": 0.4,
+      "total_hpp": 700,
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 1782634794183.9158,
+              "bdd": 100,
+              "fat": 0.4,
+              "code": "A01",
+              "name": "Beras Giling",
+              "fiber": 0.2,
+              "energy": 180,
+              "protein": 3.4,
+              "net_weight": 50,
+              "carbohydrate": 39.5,
+              "gross_weight": 50,
+              "ingredient_id": 1,
+              "ingredient_cost": 700,
+              "component_plan_id": 1
+            }
+          ],
+          "sort_order": 0,
+          "component_id": 1,
+          "menu_plan_id": 6
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [],
+          "sort_order": 1,
+          "component_id": 2,
+          "menu_plan_id": 6
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [],
+          "sort_order": 2,
+          "component_id": 3,
+          "menu_plan_id": 6
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [],
+          "sort_order": 3,
+          "component_id": 4,
+          "menu_plan_id": 6
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [],
+          "sort_order": 4,
+          "component_id": 5,
+          "menu_plan_id": 6
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [],
+          "sort_order": 5,
+          "component_id": 6,
+          "menu_plan_id": 6
+        }
+      ],
+      "created_at": "2026-06-28T08:19:49.157Z",
+      "updated_at": "2026-06-28T08:19:55.424Z",
+      "menu_day_id": 2,
+      "total_fiber": 0.2,
+      "total_energy": 180,
+      "total_protein": 3.4,
+      "total_carbohydrate": 39.5,
+      "beneficiary_group_id": 3
+    }
+  ],
+  "ingredients": [
+    {
+      "id": 1,
+      "bdd": 100,
+      "fat": 0.7,
+      "code": "A01",
+      "name": "Beras Giling",
+      "fiber": 0.3,
+      "price": 14000,
+      "energy": 360,
+      "protein": 6.8,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 1,
+      "carbohydrate": 78.9
+    },
+    {
+      "id": 2,
+      "bdd": 85,
+      "fat": 0.2,
+      "code": "A02",
+      "name": "Kentang",
+      "fiber": 0.5,
+      "price": 18000,
+      "energy": 62,
+      "protein": 2.1,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 1,
+      "carbohydrate": 13.5
+    },
+    {
+      "id": 3,
+      "bdd": 75,
+      "fat": 0.3,
+      "code": "A03",
+      "name": "Singkong",
+      "fiber": 0.9,
+      "price": 8000,
+      "energy": 154,
+      "protein": 1.2,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 1,
+      "carbohydrate": 36.8
+    },
+    {
+      "id": 4,
+      "bdd": 58,
+      "fat": 25,
+      "code": "B01",
+      "name": "Daging Ayam (dengan kulit)",
+      "fiber": 0,
+      "price": 38000,
+      "energy": 298,
+      "protein": 18.2,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 2,
+      "carbohydrate": 0
+    },
+    {
+      "id": 5,
+      "bdd": 100,
+      "fat": 19.1,
+      "code": "B02",
+      "name": "Daging Sapi Sedang",
+      "fiber": 0,
+      "price": 125000,
+      "energy": 249,
+      "protein": 17.5,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 2,
+      "carbohydrate": 0
+    },
+    {
+      "id": 6,
+      "bdd": 87,
+      "fat": 10.8,
+      "code": "B03",
+      "name": "Telur Ayam Ras",
+      "fiber": 0,
+      "price": 26000,
+      "energy": 154,
+      "protein": 12.4,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 2,
+      "carbohydrate": 0.7
+    },
+    {
+      "id": 7,
+      "bdd": 80,
+      "fat": 2.3,
+      "code": "B04",
+      "name": "Ikan Kembung Segar",
+      "fiber": 0,
+      "price": 35000,
+      "energy": 112,
+      "protein": 21.4,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 2,
+      "carbohydrate": 0
+    },
+    {
+      "id": 8,
+      "bdd": 68,
+      "fat": 0.2,
+      "code": "B05",
+      "name": "Udang Segar",
+      "fiber": 0,
+      "price": 80000,
+      "energy": 91,
+      "protein": 21,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 2,
+      "carbohydrate": 0.1
+    },
+    {
+      "id": 9,
+      "bdd": 100,
+      "fat": 7.7,
+      "code": "C01",
+      "name": "Tempe Kedelai Murni",
+      "fiber": 1.4,
+      "price": 12000,
+      "energy": 150,
+      "protein": 14,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 3,
+      "carbohydrate": 9.1
+    },
+    {
+      "id": 10,
+      "bdd": 100,
+      "fat": 4.6,
+      "code": "C02",
+      "name": "Tahu Putih",
+      "fiber": 0.1,
+      "price": 10000,
+      "energy": 68,
+      "protein": 7.8,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 3,
+      "carbohydrate": 1.6
+    },
+    {
+      "id": 11,
+      "bdd": 100,
+      "fat": 1.5,
+      "code": "C03",
+      "name": "Kacang Hijau Kupas",
+      "fiber": 4.1,
+      "price": 24000,
+      "energy": 345,
+      "protein": 22.2,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 3,
+      "carbohydrate": 62.9
+    },
+    {
+      "id": 12,
+      "bdd": 88,
+      "fat": 0.6,
+      "code": "D01",
+      "name": "Wortel Segar",
+      "fiber": 0.9,
+      "price": 15000,
+      "energy": 26,
+      "protein": 1,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 4,
+      "carbohydrate": 4.8
+    },
+    {
+      "id": 13,
+      "bdd": 71,
+      "fat": 0.4,
+      "code": "D02",
+      "name": "Bayam Segar",
+      "fiber": 0.7,
+      "price": 8000,
+      "energy": 16,
+      "protein": 0.9,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 4,
+      "carbohydrate": 2.9
+    },
+    {
+      "id": 14,
+      "bdd": 70,
+      "fat": 0.7,
+      "code": "D03",
+      "name": "Kangkung Segar",
+      "fiber": 2,
+      "price": 7000,
+      "energy": 15,
+      "protein": 3.4,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 4,
+      "carbohydrate": 3.9
+    },
+    {
+      "id": 15,
+      "bdd": 83,
+      "fat": 0.1,
+      "code": "D04",
+      "name": "Labu Siam",
+      "fiber": 1,
+      "price": 10000,
+      "energy": 26,
+      "protein": 0.6,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 4,
+      "carbohydrate": 6.7
+    },
+    {
+      "id": 16,
+      "bdd": 90,
+      "fat": 0.2,
+      "code": "D05",
+      "name": "Kol / Kubis",
+      "fiber": 1.3,
+      "price": 9000,
+      "energy": 22,
+      "protein": 1.4,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 4,
+      "carbohydrate": 5.3
+    },
+    {
+      "id": 17,
+      "bdd": 75,
+      "fat": 0.2,
+      "code": "E01",
+      "name": "Pisang Ambon",
+      "fiber": 1.9,
+      "price": 16000,
+      "energy": 108,
+      "protein": 1,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 5,
+      "carbohydrate": 24.3
+    },
+    {
+      "id": 18,
+      "bdd": 75,
+      "fat": 0,
+      "code": "E02",
+      "name": "Pepaya Matang",
+      "fiber": 1.6,
+      "price": 8000,
+      "energy": 46,
+      "protein": 0.5,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 5,
+      "carbohydrate": 12.2
+    },
+    {
+      "id": 19,
+      "bdd": 88,
+      "fat": 0.4,
+      "code": "E03",
+      "name": "Apel Fuji",
+      "fiber": 2.6,
+      "price": 35000,
+      "energy": 58,
+      "protein": 0.3,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 5,
+      "carbohydrate": 14.9
+    },
+    {
+      "id": 20,
+      "bdd": 72,
+      "fat": 0.2,
+      "code": "E04",
+      "name": "Jeruk Manis",
+      "fiber": 1.4,
+      "price": 22000,
+      "energy": 44,
+      "protein": 0.9,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 5,
+      "carbohydrate": 11.2
+    },
+    {
+      "id": 21,
+      "bdd": 46,
+      "fat": 0.2,
+      "code": "E05",
+      "name": "Semangka",
+      "fiber": 0.4,
+      "price": 7000,
+      "energy": 28,
+      "protein": 0.5,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 5,
+      "carbohydrate": 6.9
+    },
+    {
+      "id": 22,
+      "bdd": 100,
+      "fat": 3.5,
+      "code": "F01",
+      "name": "Susu Sapi Segar",
+      "fiber": 0,
+      "price": 20000,
+      "energy": 61,
+      "protein": 3.2,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 6,
+      "carbohydrate": 4.3
+    },
+    {
+      "id": 23,
+      "bdd": 100,
+      "fat": 27,
+      "code": "F02",
+      "name": "Susu Tepung Full Cream",
+      "fiber": 0,
+      "price": 95000,
+      "energy": 509,
+      "protein": 24.6,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "category_id": 6,
+      "carbohydrate": 38
+    },
+    {
+      "id": 24,
+      "bdd": 100,
+      "fat": 3,
+      "code": "F03",
+      "name": "Susu Prenagen ",
+      "fiber": 3,
+      "price": 0,
+      "energy": 120,
+      "protein": 4,
+      "created_at": "2026-06-28T10:33:14.754Z",
+      "updated_at": "2026-06-28T10:41:25.255Z",
+      "category_id": 1,
+      "carbohydrate": 17
+    },
+    {
+      "id": 25,
+      "code": "B06",
+      "category_id": 1,
+      "name": "Ikan Lele",
+      "bdd": 80,
+      "energy": 204,
+      "protein": 14.93,
+      "fat": 12.35,
+      "carbohydrate": 7.26,
+      "fiber": 0,
+      "price": 0,
+      "created_at": "2026-06-28T10:47:23.900Z",
+      "updated_at": "2026-06-28T10:47:23.900Z"
+    },
+    {
+      "id": 26,
+      "code": "TEST_1782643836845",
+      "category_id": 1,
+      "name": "Test Ingredient 1782643836845",
+      "bdd": 100,
+      "energy": 100,
+      "protein": 10,
+      "fat": 10,
+      "carbohydrate": 10,
+      "fiber": 1,
+      "price": 1000,
+      "created_at": "2026-06-28T10:50:36.845Z",
+      "updated_at": "2026-06-28T10:50:36.845Z"
+    }
+  ],
+  "library_menus": [
+    {
+      "id": 1,
+      "menu_name": "Paket Menu Sehat A",
+      "components": [
+        {
+          "id": 1,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 1,
+              "code": "A01",
+              "name": "Beras Giling",
+              "ingredient_id": 1
+            }
+          ],
+          "component_id": 1
+        },
+        {
+          "id": 2,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 2,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "ingredient_id": 4
+            }
+          ],
+          "component_id": 2
+        },
+        {
+          "id": 3,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 3,
+              "code": "C01",
+              "name": "Tempe Kedelai Murni",
+              "ingredient_id": 9
+            }
+          ],
+          "component_id": 3
+        },
+        {
+          "id": 4,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 4,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "ingredient_id": 12
+            },
+            {
+              "id": 5,
+              "code": "A02",
+              "name": "Kentang",
+              "ingredient_id": 2
+            }
+          ],
+          "component_id": 4
+        },
+        {
+          "id": 5,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 6,
+              "code": "E01",
+              "name": "Pisang Ambon",
+              "ingredient_id": 17
+            }
+          ],
+          "component_id": 5
+        },
+        {
+          "id": 6,
+          "name": "Susu",
+          "items": [
+            {
+              "id": 7,
+              "code": "F01",
+              "name": "Susu Sapi Segar",
+              "ingredient_id": 22
+            }
+          ],
+          "component_id": 6
+        }
+      ],
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "created_by": 2,
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "description": "Nasi Putih dengan Ayam Goreng, Tempe Bacem, Sop Wortel-Kentang, Pisang Ambon, dan Susu Segar."
+    },
+    {
+      "id": 2,
+      "menu_name": "Menu Ikan Goreng Mentega",
+      "components": [
+        {
+          "id": 7,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 8,
+              "code": "A01",
+              "name": "Beras Giling",
+              "ingredient_id": 1
+            }
+          ],
+          "component_id": 1
+        },
+        {
+          "id": 8,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 9,
+              "code": "B04",
+              "name": "Ikan Kembung Segar",
+              "ingredient_id": 7
+            }
+          ],
+          "component_id": 2
+        },
+        {
+          "id": 9,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 10,
+              "code": "C02",
+              "name": "Tahu Putih",
+              "ingredient_id": 10
+            }
+          ],
+          "component_id": 3
+        },
+        {
+          "id": 10,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 11,
+              "code": "D03",
+              "name": "Kangkung Segar",
+              "ingredient_id": 14
+            }
+          ],
+          "component_id": 4
+        },
+        {
+          "id": 11,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 12,
+              "code": "E04",
+              "name": "Jeruk Manis",
+              "ingredient_id": 20
+            }
+          ],
+          "component_id": 5
+        },
+        {
+          "id": 12,
+          "name": "Susu",
+          "items": [
+            {
+              "id": 13,
+              "code": "F01",
+              "name": "Susu Sapi Segar",
+              "ingredient_id": 22
+            }
+          ],
+          "component_id": 6
+        }
+      ],
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "created_by": 2,
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "description": "Nasi Putih, Ikan Kembung Mentega, Tahu Goreng, Cah Kangkung, Jeruk Manis, dan Susu."
+    },
+    {
+      "id": 3,
+      "menu_name": "Bubur Bayi Halus",
+      "components": [
+        {
+          "id": 13,
+          "name": "Makanan Pokok",
+          "items": [
+            {
+              "id": 14,
+              "code": "A01",
+              "name": "Beras Giling",
+              "ingredient_id": 1
+            }
+          ],
+          "component_id": 1
+        },
+        {
+          "id": 14,
+          "name": "Lauk Hewani",
+          "items": [
+            {
+              "id": 15,
+              "code": "B01",
+              "name": "Daging Ayam (dengan kulit)",
+              "ingredient_id": 4
+            }
+          ],
+          "component_id": 2
+        },
+        {
+          "id": 15,
+          "name": "Lauk Nabati",
+          "items": [
+            {
+              "id": 16,
+              "code": "C02",
+              "name": "Tahu Putih",
+              "ingredient_id": 10
+            }
+          ],
+          "component_id": 3
+        },
+        {
+          "id": 16,
+          "name": "Sayur",
+          "items": [
+            {
+              "id": 17,
+              "code": "D01",
+              "name": "Wortel Segar",
+              "ingredient_id": 12
+            }
+          ],
+          "component_id": 4
+        },
+        {
+          "id": 17,
+          "name": "Buah",
+          "items": [
+            {
+              "id": 18,
+              "code": "E02",
+              "name": "Pepaya Matang",
+              "ingredient_id": 18
+            }
+          ],
+          "component_id": 5
+        },
+        {
+          "id": 18,
+          "name": "Susu",
+          "items": [
+            {
+              "id": 19,
+              "code": "F02",
+              "name": "Susu Tepung Full Cream",
+              "ingredient_id": 23
+            }
+          ],
+          "component_id": 6
+        }
+      ],
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "created_by": 2,
+      "updated_at": "2026-06-28T07:42:38.859Z",
+      "description": "Khusus Balita: Bubur Beras halus dengan Kukusan Fillet Ayam, Tahu Lembut, Wortel Serut, Pepaya, dan Susu Tepung."
+    }
+  ],
+  "beneficiary_groups": [
+    {
+      "id": 1,
+      "name": "Balita",
+      "fat_max": 34,
+      "fat_min": 28,
+      "fiber_max": 20,
+      "fiber_min": 15,
+      "hpp_limit": 8000,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "energy_max": 320,
+      "energy_min": 230,
+      "updated_at": "2026-06-28T08:17:16.368Z",
+      "protein_max": 30,
+      "protein_min": 20,
+      "carbohydrate_max": 220,
+      "carbohydrate_min": 180,
+      "beneficiary_count": 100
+    },
+    {
+      "id": 2,
+      "name": "PAUD / TK / SD Kelas 1-3",
+      "fat_max": 60,
+      "fat_min": 50,
+      "fiber_max": 25,
+      "fiber_min": 20,
+      "hpp_limit": 8000,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "energy_max": 530,
+      "energy_min": 420,
+      "updated_at": "2026-06-28T08:17:49.831Z",
+      "protein_max": 55,
+      "protein_min": 45,
+      "carbohydrate_max": 250,
+      "carbohydrate_min": 220,
+      "beneficiary_count": 80
+    },
+    {
+      "id": 3,
+      "name": "SD Kelas 4-6 / SMP",
+      "fat_max": 70,
+      "fat_min": 60,
+      "fiber_max": 30,
+      "fiber_min": 25,
+      "hpp_limit": 10000,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "energy_max": 720,
+      "energy_min": 450,
+      "updated_at": "2026-06-28T08:18:29.505Z",
+      "protein_max": 70,
+      "protein_min": 60,
+      "carbohydrate_max": 320,
+      "carbohydrate_min": 280,
+      "beneficiary_count": 120
+    },
+    {
+      "id": 4,
+      "name": "Ibu Hamil / Menyusui",
+      "fat_max": 80,
+      "fat_min": 70,
+      "fiber_max": 35,
+      "fiber_min": 30,
+      "hpp_limit": 10000,
+      "created_at": "2026-06-28T07:42:38.859Z",
+      "energy_max": 760,
+      "energy_min": 720,
+      "updated_at": "2026-06-28T08:19:17.209Z",
+      "protein_max": 85,
+      "protein_min": 75,
+      "carbohydrate_max": 380,
+      "carbohydrate_min": 340,
+      "beneficiary_count": 30
+    }
+  ],
+  "procurement_orders": [
+    {
+      "id": 1,
+      "items": [
+        {
+          "id": 1,
+          "code": "A01",
+          "name": "Beras Giling",
+          "subtotal": 352500,
+          "unit_price": 15000,
+          "ingredient_id": 1,
+          "purchase_unit": "kg",
+          "actual_quantity": 23.5,
+          "calculated_quantity": 23.5,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 2,
+          "code": "B01",
+          "name": "Daging Ayam (dengan kulit)",
+          "subtotal": 966340,
+          "unit_price": 38000,
+          "ingredient_id": 4,
+          "purchase_unit": "kg",
+          "actual_quantity": 25.43,
+          "calculated_quantity": 25.43,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 3,
+          "code": "C01",
+          "name": "Tempe Kedelai Murni",
+          "subtotal": 500000,
+          "unit_price": 5000,
+          "ingredient_id": 9,
+          "purchase_unit": "pcs",
+          "actual_quantity": 100,
+          "calculated_quantity": 8.9,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 4,
+          "code": "D01",
+          "name": "Wortel Segar",
+          "subtotal": 127800,
+          "unit_price": 15000,
+          "ingredient_id": 12,
+          "purchase_unit": "kg",
+          "actual_quantity": 8.52,
+          "calculated_quantity": 8.52,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 5,
+          "code": "D05",
+          "name": "Kol / Kubis",
+          "subtotal": 74970,
+          "unit_price": 9000,
+          "ingredient_id": 16,
+          "purchase_unit": "kg",
+          "actual_quantity": 8.33,
+          "calculated_quantity": 8.33,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 6,
+          "code": "E03",
+          "name": "Apel Fuji",
+          "subtotal": 890750,
+          "unit_price": 35000,
+          "ingredient_id": 19,
+          "purchase_unit": "kg",
+          "actual_quantity": 25.45,
+          "calculated_quantity": 25.45,
+          "procurement_order_id": 1
+        }
+      ],
+      "status": "Final",
+      "period_id": 1,
+      "created_at": "2026-06-28T07:56:38.628Z",
+      "order_date": "2026-07-01",
+      "total_cost": 2930360,
+      "updated_at": "2026-06-28T07:58:56.555Z",
+      "menu_day_id": 1,
+      "manual_items": [
+        {
+          "id": 1,
+          "unit": "kg",
+          "quantity": 1,
+          "subtotal": 10000,
+          "item_name": "Bawang Merah",
+          "unit_price": 10000,
+          "procurement_order_id": 1
+        },
+        {
+          "id": 2,
+          "unit": "kg",
+          "quantity": 1,
+          "subtotal": 8000,
+          "item_name": "Bawang Putih",
+          "unit_price": 8000,
+          "procurement_order_id": 1
+        }
+      ]
+    }
+  ]
+}
