@@ -3,8 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { getDb, saveDb, calculateNutrition, logAudit, syncFromSupabase, supabase, ensureDbSynced } from './server/db';
 import {
   User,
@@ -1284,19 +1288,27 @@ async function startServer() {
     console.error("Supabase sync on startup failed:", err);
   }
 
-  if (process.env.NODE_ENV !== "production") {
+  const isProd = process.env.NODE_ENV === "production" || __filename.endsWith('.cjs');
+
+  if (isProd) {
+    let distPath = path.join(process.cwd(), 'dist');
+    if (!fs.existsSync(distPath)) {
+      distPath = path.join(__dirname, '../dist');
+      if (!fs.existsSync(distPath)) {
+        distPath = __dirname;
+      }
+    }
+    app.use(express.static(distPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
 
   app.listen(PORT, "0.0.0.0", () => {
