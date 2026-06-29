@@ -29,7 +29,7 @@ import {
 } from '../src/types';
 
 const supabaseUrl = process.env.SUPABASE_URL || 'https://bvzvydkasblggorengus.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'sb_publishable_s0k1anD6LOzV7DN949xjSg_cFQenOjd';
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2enZ5ZGthc2JsZ2dvcmVuZ3VzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjM1NzYsImV4cCI6MjA5ODE5OTU3Nn0.RNUGX4IrmNt5_Y-GlsHHGgJZE4OuBlMWLhQb2Z4gdjw';
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -46,9 +46,11 @@ interface DatabaseSchema {
 }
 
 export const isServerless = !!(process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT || process.env.VERCEL);
-const DB_FILE_PATH = isServerless 
+const DB_FILE_PATH = (process.env.NODE_ENV === 'production' || isServerless)
   ? '/tmp/gzq_db.json' 
   : path.join(process.cwd(), 'gzq_db.json');
+
+const WORKSPACE_DB_PATH = path.join(process.cwd(), 'gzq_db.json');
 
 let lastSyncedAt: string | null = null;
 
@@ -274,6 +276,21 @@ const defaultLibraryMenus: LibraryMenu[] = [
 ];
 
 export function getDb(): DatabaseSchema {
+  if (!fs.existsSync(DB_FILE_PATH)) {
+    // If the active DB file doesn't exist, check if we have a committed gzq_db.json in the workspace to clone as baseline
+    if (fs.existsSync(WORKSPACE_DB_PATH) && DB_FILE_PATH !== WORKSPACE_DB_PATH) {
+      try {
+        console.log(`Cloning baseline database from workspace (${WORKSPACE_DB_PATH}) to active cache (${DB_FILE_PATH})...`);
+        const content = fs.readFileSync(WORKSPACE_DB_PATH, 'utf-8');
+        // Validate JSON before writing
+        JSON.parse(content); 
+        fs.writeFileSync(DB_FILE_PATH, content, 'utf-8');
+      } catch (copyErr) {
+        console.error("Failed to copy workspace baseline DB file, will generate fresh copy instead:", copyErr);
+      }
+    }
+  }
+
   if (!fs.existsSync(DB_FILE_PATH)) {
     // Generate initial period on startup
     const start = new Date("2026-07-01");
