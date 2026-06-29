@@ -290,7 +290,7 @@ app.get('/api/v1/ingredients', requireAuth, (req, res) => {
   res.json({ success: true, data: list });
 });
 
-app.post('/api/v1/ingredients/import', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), async (req, res) => {
+app.post('/api/v1/ingredients/import', requireAuth, async (req, res) => {
   const { ingredients } = req.body; // Array of ingredients to import
   if (!ingredients || !Array.isArray(ingredients)) {
     return res.status(422).json({ success: false, message: "Format data import tidak valid." });
@@ -327,7 +327,7 @@ app.post('/api/v1/ingredients/import', requireAuth, requireRole([UserRole.ADMINI
   res.json({ success: true, message: `${importCount} bahan pangan TKPI berhasil diimport.` });
 });
 
-app.post('/api/v1/ingredients', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), async (req, res) => {
+app.post('/api/v1/ingredients', requireAuth, async (req, res) => {
   const db = getDb();
   const { code, name, bdd, energy, protein, fat, carbohydrate, fiber, price } = req.body;
 
@@ -359,7 +359,7 @@ app.post('/api/v1/ingredients', requireAuth, requireRole([UserRole.ADMINISTRATOR
   res.status(201).json({ success: true, message: "Bahan pangan berhasil ditambahkan.", data: newIngredient });
 });
 
-app.put('/api/v1/ingredients/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), async (req, res) => {
+app.put('/api/v1/ingredients/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.ingredients.findIndex(i => i.id === id);
@@ -383,7 +383,7 @@ app.put('/api/v1/ingredients/:id', requireAuth, requireRole([UserRole.ADMINISTRA
   res.json({ success: true, message: "Bahan pangan berhasil diperbarui.", data: updated });
 });
 
-app.delete('/api/v1/ingredients/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), async (req, res) => {
+app.delete('/api/v1/ingredients/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.ingredients.findIndex(i => i.id === id);

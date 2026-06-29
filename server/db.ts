@@ -479,51 +479,26 @@ export async function syncIngredientsFromSupabase() {
       console.log(`Found ${data.length} ingredients from Supabase! Synchronizing with local cache...`);
       const db = getDb();
       
-      // Merge logic: Keep whichever ingredient is newer (or exists only in one list)
-      const localIngMap = new Map(db.ingredients.map(i => [i.id, i]));
-      let hasNewerOrNewIngredients = false;
+      const mappedIngredients: Ingredient[] = data.map((item: any) => ({
+        id: item.id,
+        code: item.code,
+        category_id: item.category_id || 1,
+        name: item.name,
+        bdd: Number(item.bdd) || 100,
+        energy: Number(item.energy) || 0,
+        protein: Number(item.protein) || 0,
+        fat: Number(item.fat) || 0,
+        carbohydrate: Number(item.carbohydrate) || 0,
+        fiber: Number(item.fiber) || 0,
+        price: Number(item.price) || 0,
+        created_at: item.created_at || new Date().toISOString(),
+        updated_at: item.updated_at || new Date().toISOString(),
+        deleted_at: item.deleted_at || undefined
+      }));
       
-      data.forEach((item: any) => {
-        const localIng = localIngMap.get(item.id);
-        const remoteIng: Ingredient = {
-          id: item.id,
-          code: item.code,
-          category_id: item.category_id || 1,
-          name: item.name,
-          bdd: Number(item.bdd) || 100,
-          energy: Number(item.energy) || 0,
-          protein: Number(item.protein) || 0,
-          fat: Number(item.fat) || 0,
-          carbohydrate: Number(item.carbohydrate) || 0,
-          fiber: Number(item.fiber) || 0,
-          price: Number(item.price) || 0,
-          created_at: item.created_at || new Date().toISOString(),
-          updated_at: item.updated_at || new Date().toISOString(),
-          deleted_at: item.deleted_at || undefined
-        };
-        
-        if (!localIng) {
-          localIngMap.set(item.id, remoteIng);
-          hasNewerOrNewIngredients = true;
-        } else {
-          // Keep whichever is newer based on updated_at timestamp
-          const localTime = new Date(localIng.updated_at || localIng.created_at || 0).getTime();
-          const remoteTime = new Date(remoteIng.updated_at || remoteIng.created_at || 0).getTime();
-          if (remoteTime > localTime) {
-            localIngMap.set(item.id, remoteIng);
-            hasNewerOrNewIngredients = true;
-          }
-        }
-      });
-      
-      if (hasNewerOrNewIngredients) {
-        db.ingredients = Array.from(localIngMap.values()).sort((a, b) => a.id - b.id);
-        fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), 'utf-8');
-        await saveToSupabase(db);
-        console.log("Successfully synchronized local ingredients cache with Supabase table & store!");
-      } else {
-        console.log("Ingredients are already up to date.");
-      }
+      db.ingredients = mappedIngredients.sort((a, b) => a.id - b.id);
+      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), 'utf-8');
+      console.log("Successfully synchronized local ingredients cache with Supabase table!");
     }
   } catch (err) {
     console.error("Error during ingredients Supabase sync:", err);
