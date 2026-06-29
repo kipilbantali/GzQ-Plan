@@ -339,6 +339,78 @@ export function getDb(): DatabaseSchema {
     const raw = fs.readFileSync(DB_FILE_PATH, 'utf-8');
     const data = JSON.parse(raw);
     
+    let dataRepaired = false;
+    if (!data.users || !Array.isArray(data.users) || data.users.length === 0) {
+      data.users = defaultUsers;
+      dataRepaired = true;
+    }
+    if (!data.beneficiary_groups || !Array.isArray(data.beneficiary_groups) || data.beneficiary_groups.length === 0) {
+      data.beneficiary_groups = defaultBeneficiaryGroups;
+      dataRepaired = true;
+    }
+    if (!data.ingredients || !Array.isArray(data.ingredients) || data.ingredients.length === 0) {
+      data.ingredients = defaultIngredients;
+      dataRepaired = true;
+    }
+    if (!data.library_menus || !Array.isArray(data.library_menus) || data.library_menus.length === 0) {
+      data.library_menus = defaultLibraryMenus;
+      dataRepaired = true;
+    }
+    if (!data.periods || !Array.isArray(data.periods) || data.periods.length === 0) {
+      const start = new Date("2026-07-01");
+      const initialPeriod: Period = {
+        id: 1,
+        name: "Periode Operasional Juli 2026",
+        start_date: "2026-07-01",
+        end_date: "2026-07-14",
+        status: PeriodStatus.DRAFT,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      data.periods = [initialPeriod];
+      
+      const menuDays: MenuDay[] = [];
+      let dayNum = 1;
+      for (let i = 0; i < 14; i++) {
+        const current = new Date(start);
+        current.setDate(start.getDate() + i);
+        const isSunday = current.getDay() === 0;
+
+        menuDays.push({
+          id: i + 1,
+          period_id: 1,
+          day_number: isSunday ? 0 : dayNum,
+          calendar_date: current.toISOString().split('T')[0],
+          distribution_day: !isSunday,
+          status: isSunday ? "Holiday" : "Pending"
+        });
+
+        if (!isSunday) {
+          dayNum++;
+        }
+      }
+      data.menu_days = menuDays;
+      dataRepaired = true;
+    }
+    if (!data.menu_plans || !Array.isArray(data.menu_plans)) {
+      data.menu_plans = [];
+      dataRepaired = true;
+    }
+    if (!data.procurement_orders || !Array.isArray(data.procurement_orders)) {
+      data.procurement_orders = [];
+      dataRepaired = true;
+    }
+    if (!data.audit_logs || !Array.isArray(data.audit_logs)) {
+      data.audit_logs = [];
+      dataRepaired = true;
+    }
+
+    if (dataRepaired) {
+      console.log("Database missing crucial fields, automatically repaired with default/empty baseline.");
+      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+      saveToSupabase(data).catch(() => {});
+    }
+
     // Auto-migration for renaming "Balita (1-5 Tahun)" to "Balita"
     let migratedName = false;
     if (data) {

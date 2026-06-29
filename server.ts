@@ -81,7 +81,7 @@ function requireRole(roles: UserRole[]) {
 // ==========================================
 // AUTHENTICATION APIs
 // ==========================================
-app.post('/api/v1/auth/login', (req, res) => {
+app.post('/api/v1/auth/login', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ success: false, message: "Username dan password wajib diisi." });
@@ -101,7 +101,7 @@ app.post('/api/v1/auth/login', (req, res) => {
 
   currentUser = user;
   user.last_login_at = new Date().toISOString();
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(user.id, user.name, "Authentication", "Login", "users", user.id);
 
@@ -136,7 +136,7 @@ app.get('/api/v1/users', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (re
   res.json({ success: true, data: db.users });
 });
 
-app.post('/api/v1/users', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (req, res) => {
+app.post('/api/v1/users', requireAuth, requireRole([UserRole.ADMINISTRATOR]), async (req, res) => {
   const { name, username, email, role, status, password } = req.body;
   if (!name || !username || !email || !role) {
     return res.status(422).json({ success: false, message: "Data tidak lengkap." });
@@ -160,14 +160,14 @@ app.post('/api/v1/users', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (r
   };
 
   db.users.push(newUser);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "MasterData", "Create User", "users", newUser.id, null, newUser);
 
   res.status(201).json({ success: true, message: "User berhasil dibuat.", data: newUser });
 });
 
-app.put('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (req, res) => {
+app.put('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR]), async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const userIdx = db.users.findIndex(u => u.id === id);
@@ -196,14 +196,14 @@ app.put('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR]),
   };
 
   db.users[userIdx] = updatedUser;
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "MasterData", "Update User", "users", id, oldUser, updatedUser);
 
   res.json({ success: true, message: "User berhasil diperbarui.", data: updatedUser });
 });
 
-app.delete('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (req, res) => {
+app.delete('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR]), async (req, res) => {
   const id = Number(req.params.id);
   if (id === currentUser?.id) {
     return res.status(400).json({ success: false, message: "Anda tidak dapat menghapus akun Anda sendiri." });
@@ -217,7 +217,7 @@ app.delete('/api/v1/users/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR
 
   const deletedUser = db.users[userIdx];
   db.users.splice(userIdx, 1);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "MasterData", "Delete User", "users", id, deletedUser, null);
 
@@ -233,7 +233,7 @@ app.get('/api/v1/beneficiary-groups', requireAuth, (req, res) => {
   res.json({ success: true, data: db.beneficiary_groups });
 });
 
-app.post('/api/v1/beneficiary-groups', requireAuth, requireRole([UserRole.ADMINISTRATOR]), (req, res) => {
+app.post('/api/v1/beneficiary-groups', requireAuth, requireRole([UserRole.ADMINISTRATOR]), async (req, res) => {
   const db = getDb();
   const newGroup: BeneficiaryGroup = {
     id: db.beneficiary_groups.length > 0 ? Math.max(...db.beneficiary_groups.map(g => g.id)) + 1 : 1,
@@ -243,14 +243,14 @@ app.post('/api/v1/beneficiary-groups', requireAuth, requireRole([UserRole.ADMINI
   };
 
   db.beneficiary_groups.push(newGroup);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "MasterData", "Create Group", "beneficiary_groups", newGroup.id, null, newGroup);
 
   res.status(201).json({ success: true, message: "Kelompok penerima berhasil dibuat.", data: newGroup });
 });
 
-app.put('/api/v1/beneficiary-groups/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), (req, res) => {
+app.put('/api/v1/beneficiary-groups/:id', requireAuth, requireRole([UserRole.ADMINISTRATOR, UserRole.PENGAWAS_GIZI]), async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const index = db.beneficiary_groups.findIndex(g => g.id === id);
@@ -267,7 +267,7 @@ app.put('/api/v1/beneficiary-groups/:id', requireAuth, requireRole([UserRole.ADM
   };
 
   db.beneficiary_groups[index] = updated;
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "MasterData", "Update Group", "beneficiary_groups", id, old, updated);
 
@@ -409,7 +409,7 @@ app.get('/api/v1/library-menus', requireAuth, (req, res) => {
   res.json({ success: true, data: db.library_menus });
 });
 
-app.post('/api/v1/library-menus', requireAuth, (req, res) => {
+app.post('/api/v1/library-menus', requireAuth, async (req, res) => {
   const { menu_name, description, components } = req.body;
   if (!menu_name) {
     return res.status(422).json({ success: false, message: "Nama menu wajib diisi." });
@@ -427,14 +427,14 @@ app.post('/api/v1/library-menus', requireAuth, (req, res) => {
   };
 
   db.library_menus.push(newMenu);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Library", "Create Library Menu", "library_menus", newMenu.id, null, newMenu);
 
   res.status(201).json({ success: true, message: "Library Menu berhasil ditambahkan.", data: newMenu });
 });
 
-app.put('/api/v1/library-menus/:id', requireAuth, (req, res) => {
+app.put('/api/v1/library-menus/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.library_menus.findIndex(m => m.id === id);
@@ -451,14 +451,14 @@ app.put('/api/v1/library-menus/:id', requireAuth, (req, res) => {
   };
 
   db.library_menus[idx] = updated;
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Library", "Update Library Menu", "library_menus", id, old, updated);
 
   res.json({ success: true, message: "Library Menu berhasil diperbarui.", data: updated });
 });
 
-app.delete('/api/v1/library-menus/:id', requireAuth, (req, res) => {
+app.delete('/api/v1/library-menus/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.library_menus.findIndex(m => m.id === id);
@@ -468,7 +468,7 @@ app.delete('/api/v1/library-menus/:id', requireAuth, (req, res) => {
 
   const deleted = db.library_menus[idx];
   db.library_menus.splice(idx, 1);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Library", "Delete Library Menu", "library_menus", id, deleted, null);
 
@@ -484,7 +484,7 @@ app.get('/api/v1/periods', requireAuth, (req, res) => {
   res.json({ success: true, data: db.periods });
 });
 
-app.post('/api/v1/periods', requireAuth, (req, res) => {
+app.post('/api/v1/periods', requireAuth, async (req, res) => {
   const { name, start_date, end_date } = req.body;
   if (!name || !start_date || !end_date) {
     return res.status(422).json({ success: false, message: "Data tidak lengkap." });
@@ -528,14 +528,14 @@ app.post('/api/v1/periods', requireAuth, (req, res) => {
 
   db.periods.push(newPeriod);
   db.menu_days.push(...menuDays);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Create Period & Days", "periods", newPeriod.id, null, newPeriod);
 
   res.status(201).json({ success: true, message: "Periode dan 12 Hari Menu berhasil dibuat.", data: { period: newPeriod, days: menuDays } });
 });
 
-app.put('/api/v1/periods/:id', requireAuth, (req, res) => {
+app.put('/api/v1/periods/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.periods.findIndex(p => p.id === id);
@@ -552,14 +552,14 @@ app.put('/api/v1/periods/:id', requireAuth, (req, res) => {
   };
 
   db.periods[idx] = updated;
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Update Period", "periods", id, old, updated);
 
   res.json({ success: true, message: "Periode berhasil diperbarui.", data: updated });
 });
 
-app.delete('/api/v1/periods/:id', requireAuth, (req, res) => {
+app.delete('/api/v1/periods/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.periods.findIndex(p => p.id === id);
@@ -580,7 +580,7 @@ app.delete('/api/v1/periods/:id', requireAuth, (req, res) => {
   // Remove associated procurement orders
   db.procurement_orders = db.procurement_orders.filter(o => o.period_id !== id && !dayIds.includes(o.menu_day_id));
 
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Delete Period Cascade", "periods", id, deleted, null);
 
@@ -655,7 +655,7 @@ app.get('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
 });
 
 // Create/Initialize a Menu Plan (with Library snapshot, or copy, or blank)
-app.post('/api/v1/menu-plans', requireAuth, (req, res) => {
+app.post('/api/v1/menu-plans', requireAuth, async (req, res) => {
   const { menu_day_id, beneficiary_group_id, library_menu_id, menu_name } = req.body;
   if (!menu_day_id || !beneficiary_group_id || !menu_name) {
     return res.status(422).json({ success: false, message: "Data tidak lengkap." });
@@ -735,7 +735,7 @@ app.post('/api/v1/menu-plans', requireAuth, (req, res) => {
 
   recalculateMenuPlanAggregates(newPlan);
   db.menu_plans.push(newPlan);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Create Menu Plan", "menu_plans", newId, null, newPlan);
 
@@ -743,7 +743,7 @@ app.post('/api/v1/menu-plans', requireAuth, (req, res) => {
 });
 
 // Update Menu Plan whole structure (for Autosave, components, weight modifications)
-app.put('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
+app.put('/api/v1/menu-plans/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.menu_plans.findIndex(p => p.id === id);
@@ -786,7 +786,7 @@ app.put('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
 
   recalculateMenuPlanAggregates(updated);
   db.menu_plans[idx] = updated;
-  saveDb(db);
+  await saveDb(db);
 
   // We only audit actual status changes or heavy mutations to prevent log flooding during active auto-saves
   if (old.status !== updated.status || old.menu_name !== updated.menu_name) {
@@ -797,7 +797,7 @@ app.put('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
 });
 
 // Finalize Menu Plan (BR-13)
-app.post('/api/v1/menu-plans/:id/finalize', requireAuth, (req, res) => {
+app.post('/api/v1/menu-plans/:id/finalize', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.menu_plans.findIndex(p => p.id === id);
@@ -807,7 +807,7 @@ app.post('/api/v1/menu-plans/:id/finalize', requireAuth, (req, res) => {
 
   db.menu_plans[idx].status = MenuStatus.FINAL;
   db.menu_plans[idx].updated_at = new Date().toISOString();
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Finalize Menu Plan", "menu_plans", id);
 
@@ -815,7 +815,7 @@ app.post('/api/v1/menu-plans/:id/finalize', requireAuth, (req, res) => {
 });
 
 // Unfinalize Menu Plan (set back to Draft)
-app.post('/api/v1/menu-plans/:id/draft', requireAuth, (req, res) => {
+app.post('/api/v1/menu-plans/:id/draft', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.menu_plans.findIndex(p => p.id === id);
@@ -825,7 +825,7 @@ app.post('/api/v1/menu-plans/:id/draft', requireAuth, (req, res) => {
 
   db.menu_plans[idx].status = MenuStatus.DRAFT;
   db.menu_plans[idx].updated_at = new Date().toISOString();
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Change Menu Status to Draft", "menu_plans", id);
 
@@ -833,7 +833,7 @@ app.post('/api/v1/menu-plans/:id/draft', requireAuth, (req, res) => {
 });
 
 // Copy Menu Plan from another group on same day (BR-023, BR-024)
-app.post('/api/v1/menu-plans/:id/copy-group', requireAuth, (req, res) => {
+app.post('/api/v1/menu-plans/:id/copy-group', requireAuth, async (req, res) => {
   const targetId = Number(req.params.id); // Menu Plan ID to copy into
   const { source_menu_plan_id } = req.body;
 
@@ -877,7 +877,7 @@ app.post('/api/v1/menu-plans/:id/copy-group', requireAuth, (req, res) => {
   recalculateMenuPlanAggregates(db.menu_plans[targetIdx]);
   db.menu_plans[targetIdx].updated_at = new Date().toISOString();
 
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", `Copy Menu from Group ID ${source.beneficiary_group_id}`, "menu_plans", targetId);
 
@@ -885,7 +885,7 @@ app.post('/api/v1/menu-plans/:id/copy-group', requireAuth, (req, res) => {
 });
 
 // Copy Menu Plan from library template (BR-023, BR-024)
-app.post('/api/v1/menu-plans/:id/copy-library', requireAuth, (req, res) => {
+app.post('/api/v1/menu-plans/:id/copy-library', requireAuth, async (req, res) => {
   const targetId = Number(req.params.id); // Menu Plan ID to copy into
   const { library_menu_id } = req.body;
 
@@ -943,14 +943,14 @@ app.post('/api/v1/menu-plans/:id/copy-library', requireAuth, (req, res) => {
   recalculateMenuPlanAggregates(db.menu_plans[targetIdx]);
   db.menu_plans[targetIdx].updated_at = new Date().toISOString();
 
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", `Copy Menu from Library ID ${libMenu.id}`, "menu_plans", targetId);
 
   res.json({ success: true, message: "Menu berhasil disalin dari library.", data: db.menu_plans[targetIdx] });
 });
 
-app.delete('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
+app.delete('/api/v1/menu-plans/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.menu_plans.findIndex(p => p.id === id);
@@ -960,7 +960,7 @@ app.delete('/api/v1/menu-plans/:id', requireAuth, (req, res) => {
 
   const deleted = db.menu_plans[idx];
   db.menu_plans.splice(idx, 1);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Planning", "Delete Menu Plan", "menu_plans", id, deleted, null);
 
@@ -987,7 +987,7 @@ app.get('/api/v1/procurement-orders/:id', requireAuth, (req, res) => {
 });
 
 // Generate/Initialize a procurement list by combining all ingredients of Finalized MenuPlans of a Day
-app.post('/api/v1/procurement-orders/:id/generate', requireAuth, (req, res) => {
+app.post('/api/v1/procurement-orders/:id/generate', requireAuth, async (req, res) => {
   const orderId = Number(req.params.id);
   const { period_id, menu_day_id } = req.body;
 
@@ -1077,7 +1077,7 @@ app.post('/api/v1/procurement-orders/:id/generate', requireAuth, (req, res) => {
     db.procurement_orders.push(newOrder);
   }
 
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Procurement", `Generate Procurement Order x${pItems.length} items`, "procurement_orders", orderId);
 
@@ -1085,7 +1085,7 @@ app.post('/api/v1/procurement-orders/:id/generate', requireAuth, (req, res) => {
 });
 
 // Save whole procurement state (items, manual bumbu items, actual quantities)
-app.put('/api/v1/procurement-orders/:id', requireAuth, (req, res) => {
+app.put('/api/v1/procurement-orders/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.procurement_orders.findIndex(o => o.id === id);
@@ -1118,13 +1118,13 @@ app.put('/api/v1/procurement-orders/:id', requireAuth, (req, res) => {
 
   updated.total_cost = cost;
   db.procurement_orders[idx] = updated;
-  saveDb(db);
+  await saveDb(db);
 
   res.json({ success: true, message: "Pesanan berhasil disimpan.", data: updated });
 });
 
 // Finalize Procurement Order
-app.post('/api/v1/procurement-orders/:id/finalize', requireAuth, (req, res) => {
+app.post('/api/v1/procurement-orders/:id/finalize', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.procurement_orders.findIndex(o => o.id === id);
@@ -1134,7 +1134,7 @@ app.post('/api/v1/procurement-orders/:id/finalize', requireAuth, (req, res) => {
 
   db.procurement_orders[idx].status = ProcurementStatus.FINAL;
   db.procurement_orders[idx].updated_at = new Date().toISOString();
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Procurement", "Finalize Procurement Order", "procurement_orders", id);
 
@@ -1142,7 +1142,7 @@ app.post('/api/v1/procurement-orders/:id/finalize', requireAuth, (req, res) => {
 });
 
 // Unlock Procurement Order & Clear Saved Items to avoid duplicates (BR-12, Edit Action)
-app.post('/api/v1/procurement-orders/:id/unlock', requireAuth, (req, res) => {
+app.post('/api/v1/procurement-orders/:id/unlock', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.procurement_orders.findIndex(o => o.id === id);
@@ -1155,14 +1155,14 @@ app.post('/api/v1/procurement-orders/:id/unlock', requireAuth, (req, res) => {
   db.procurement_orders[idx].manual_items = [];
   db.procurement_orders[idx].total_cost = 0;
   db.procurement_orders[idx].updated_at = new Date().toISOString();
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Procurement", "Unlock Procurement Order & Clear Saved Items", "procurement_orders", id);
 
   res.json({ success: true, message: "Kunci pesanan dibuka dan data lama dibersihkan. Silakan muat ulang atau simpan kembali.", data: db.procurement_orders[idx] });
 });
 
-app.delete('/api/v1/procurement-orders/:id', requireAuth, (req, res) => {
+app.delete('/api/v1/procurement-orders/:id', requireAuth, async (req, res) => {
   const id = Number(req.params.id);
   const db = getDb();
   const idx = db.procurement_orders.findIndex(o => o.id === id);
@@ -1172,7 +1172,7 @@ app.delete('/api/v1/procurement-orders/:id', requireAuth, (req, res) => {
 
   const deleted = db.procurement_orders[idx];
   db.procurement_orders.splice(idx, 1);
-  saveDb(db);
+  await saveDb(db);
 
   logAudit(currentUser!.id, currentUser!.name, "Procurement", "Delete Procurement Order", "procurement_orders", id, deleted, null);
 
