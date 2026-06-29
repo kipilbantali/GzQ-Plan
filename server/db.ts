@@ -47,17 +47,38 @@ const DB_FILE_PATH = isServerless
   ? '/tmp/gzq_db.json' 
   : path.join(process.cwd(), 'gzq_db.json');
 
-let isSynced = false;
+let lastSyncedAt: string | null = null;
 
 export async function ensureDbSynced() {
-  if (!isSynced || (isServerless && !fs.existsSync(DB_FILE_PATH))) {
-    try {
-      console.log("Ensuring database cache is synced with Supabase...");
-      await syncFromSupabase();
-      isSynced = true;
-    } catch (err) {
-      console.error("Failed to sync from Supabase in ensureDbSynced:", err);
+  try {
+    // 1. Check the updated_at in Supabase gzq_db_store
+    const { data, error } = await supabase
+      .from('gzq_db_store')
+      .select('updated_at')
+      .eq('id', 1)
+      .maybeSingle();
+
+    if (error) {
+      console.warn("Could not check updated_at on Supabase:", error.message);
+      // Fallback: if local file doesn't exist, run full sync anyway
+      if (!fs.existsSync(DB_FILE_PATH)) {
+        await syncFromSupabase();
+      }
+      return;
     }
+
+    const remoteUpdatedAt = data?.updated_at || null;
+
+    // 2. If remote has a different updated_at, or if local file doesn't exist, we must sync
+    if (!fs.existsSync(DB_FILE_PATH) || remoteUpdatedAt !== lastSyncedAt || !lastSyncedAt) {
+      console.log(`Local database is stale or missing (Local: ${lastSyncedAt}, Remote: ${remoteUpdatedAt}). Syncing...`);
+      await syncFromSupabase();
+      if (remoteUpdatedAt) {
+        lastSyncedAt = remoteUpdatedAt;
+      }
+    }
+  } catch (err) {
+    console.error("Failed to sync from Supabase in ensureDbSynced:", err);
   }
 }
 
@@ -392,13 +413,15 @@ export function getDb(): DatabaseSchema {
 
 export async function saveToSupabase(data: DatabaseSchema) {
   try {
+    const timestamp = new Date().toISOString();
     const { error } = await supabase
       .from('gzq_db_store')
-      .upsert({ id: 1, data: data, updated_at: new Date().toISOString() });
+      .upsert({ id: 1, data: data, updated_at: timestamp });
     if (error) {
       console.error("CRITICAL Supabase Sync Error (table gzq_db_store):", error.message, error);
     } else {
       console.log("Database state successfully synchronized with Supabase table gzq_db_store.");
+      lastSyncedAt = timestamp; // Prevent thinking we are stale on the next read of the same lambda
     }
   } catch (err) {
     console.error("Exception saving to Supabase gzq_db_store:", err);
@@ -458,6 +481,7 @@ export async function syncIngredientsFromSupabase() {
       
       // Merge logic: Keep whichever ingredient is newer (or exists only in one list)
       const localIngMap = new Map(db.ingredients.map(i => [i.id, i]));
+      let hasNewerOrNewIngredients = false;
       
       data.forEach((item: any) => {
         const localIng = localIngMap.get(item.id);
@@ -480,19 +504,26 @@ export async function syncIngredientsFromSupabase() {
         
         if (!localIng) {
           localIngMap.set(item.id, remoteIng);
+          hasNewerOrNewIngredients = true;
         } else {
           // Keep whichever is newer based on updated_at timestamp
           const localTime = new Date(localIng.updated_at || localIng.created_at || 0).getTime();
           const remoteTime = new Date(remoteIng.updated_at || remoteIng.created_at || 0).getTime();
           if (remoteTime > localTime) {
             localIngMap.set(item.id, remoteIng);
+            hasNewerOrNewIngredients = true;
           }
         }
       });
       
-      db.ingredients = Array.from(localIngMap.values()).sort((a, b) => a.id - b.id);
-      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), 'utf-8');
-      console.log("Successfully synchronized local ingredients cache with Supabase table!");
+      if (hasNewerOrNewIngredients) {
+        db.ingredients = Array.from(localIngMap.values()).sort((a, b) => a.id - b.id);
+        fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), 'utf-8');
+        await saveToSupabase(db);
+        console.log("Successfully synchronized local ingredients cache with Supabase table & store!");
+      } else {
+        console.log("Ingredients are already up to date.");
+      }
     }
   } catch (err) {
     console.error("Error during ingredients Supabase sync:", err);
@@ -504,7 +535,7 @@ export async function syncFromSupabase() {
     console.log("Checking for database state on Supabase backend...");
     const { data, error } = await supabase
       .from('gzq_db_store')
-      .select('data')
+      .select('data, updated_at')
       .eq('id', 1)
       .maybeSingle();
 
@@ -516,6 +547,7 @@ export async function syncFromSupabase() {
     if (data && data.data) {
       console.log("Existing database state found on Supabase! Synchronizing local file...");
       fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data.data, null, 2), 'utf-8');
+      lastSyncedAt = data.updated_at || new Date().toISOString();
     } else {
       console.log("No existing database state on Supabase yet. Synchronizing local file as base state...");
       const baseline = getDb();
