@@ -4,11 +4,12 @@
  */
 
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ override: true });
 
 import fs from 'fs';
 import path from 'path';
-import { createClient } from '@supabase/supabase-js';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, doc, getDoc, setDoc, getDocs, collection, writeBatch } from 'firebase/firestore';
 import {
   User,
   UserRole,
@@ -28,10 +29,42 @@ import {
   ProcurementManualItem
 } from '../src/types';
 
-const supabaseUrl = process.env.SUPABASE_URL || 'https://bvzvydkasblggorengus.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ2enZ5ZGthc2JsZ2dvcmVuZ3VzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjM1NzYsImV4cCI6MjA5ODE5OTU3Nn0.RNUGX4IrmNt5_Y-GlsHHGgJZE4OuBlMWLhQb2Z4gdjw';
+let firebaseConfig: any = {
+  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyCjoNcfdKag4px2xaFuCrtHG220D55-6ao",
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN || "gzqplan.firebaseapp.com",
+  projectId: process.env.FIREBASE_PROJECT_ID || "gzqplan",
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "gzqplan.firebasestorage.app",
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "621058268220",
+  appId: process.env.FIREBASE_APP_ID || "1:621058268220:web:fb76f164efd264d0f87739",
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID || "G-JF2WXXRHJY"
+};
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+const configPath = path.join(process.cwd(), 'firebase-applet-config.json');
+let firestoreDatabaseId: string | undefined = undefined;
+
+if (fs.existsSync(configPath)) {
+  try {
+    const configData = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    firebaseConfig = {
+      apiKey: configData.apiKey,
+      authDomain: configData.authDomain,
+      projectId: configData.projectId,
+      storageBucket: configData.storageBucket,
+      messagingSenderId: configData.messagingSenderId,
+      appId: configData.appId,
+      measurementId: configData.measurementId || ""
+    };
+    firestoreDatabaseId = configData.firestoreDatabaseId;
+    console.log("Loaded Firebase configuration from firebase-applet-config.json. Project ID:", firebaseConfig.projectId);
+  } catch (err) {
+    console.error("Failed to load firebase-applet-config.json:", err);
+  }
+} else {
+  console.warn("firebase-applet-config.json not found, using environment variables/fallbacks.");
+}
+
+const app = initializeApp(firebaseConfig);
+export const db = firestoreDatabaseId ? getFirestore(app, firestoreDatabaseId) : getFirestore(app);
 
 interface DatabaseSchema {
   users: User[];
@@ -67,7 +100,7 @@ export async function ensureDbSynced() {
     return activeSyncPromise;
   }
 
-  // Throttle checking Supabase updated_at to at most once every 5 seconds
+  // Throttle checking Firebase updated_at to at most once every 5 seconds
   if (Date.now() - lastCheckedAt < 5000 && fs.existsSync(DB_FILE_PATH)) {
     return;
   }
@@ -76,36 +109,34 @@ export async function ensureDbSynced() {
     try {
       lastCheckedAt = Date.now();
       
-      // 1. Check the updated_at in Supabase gzq_db_store
-      const { data, error } = await supabase
-        .from('gzq_db_store')
-        .select('updated_at')
-        .eq('id', 1)
-        .maybeSingle();
+      // 1. Check the updated_at in Firebase gzq_db_store
+      const docRef = doc(db, 'gzq_db_store', '1');
+      const docSnap = await getDoc(docRef);
 
-      if (error) {
-        console.warn("Could not check updated_at on Supabase:", error.message);
+      if (!docSnap.exists()) {
+        console.warn("Could not check updated_at on Firebase (no document yet)");
         // Fallback: if local file doesn't exist, run full sync anyway
         if (!fs.existsSync(DB_FILE_PATH)) {
-          await syncFromSupabaseInternal();
+          await syncFromFirebaseInternal();
         }
         return;
       }
 
-      const remoteUpdatedAt = data?.updated_at || null;
+      const remoteData = docSnap.data();
+      const remoteUpdatedAt = remoteData?.updated_at || null;
       const remoteTime = remoteUpdatedAt ? new Date(remoteUpdatedAt).getTime() : 0;
       const localTime = lastSyncedAt ? new Date(lastSyncedAt).getTime() : 0;
 
       // 2. If remote has a different updated_at, or if local file doesn't exist, we must sync
       if (!fs.existsSync(DB_FILE_PATH) || remoteTime !== localTime || !lastSyncedAt) {
         console.log(`Local database is stale or missing (Local: ${lastSyncedAt}, Remote: ${remoteUpdatedAt}). Syncing...`);
-        await syncFromSupabaseInternal();
+        await syncFromFirebaseInternal();
         if (remoteUpdatedAt) {
           lastSyncedAt = remoteUpdatedAt;
         }
       }
     } catch (err) {
-      console.error("Failed to sync from Supabase in ensureDbSynced:", err);
+      console.error("Failed to sync from Firebase in ensureDbSynced:", err);
     } finally {
       activeSyncPromise = null;
     }
@@ -481,7 +512,7 @@ export function getDb(): DatabaseSchema {
     if (dataRepaired) {
       console.log("Database missing crucial fields, automatically repaired with default/empty baseline.");
       writeDbFileAtomic(data);
-      saveToSupabase(data).catch(() => {});
+      saveToFirebase(data).catch(() => {});
     }
 
     // Auto-migration for renaming "Balita (1-5 Tahun)" to "Balita"
@@ -513,8 +544,8 @@ export function getDb(): DatabaseSchema {
       }
       if (migratedName) {
         writeDbFileAtomic(data);
-        // Push the renamed data back to Supabase to keep it in sync
-        saveToSupabase(data).catch(() => {});
+        // Push the renamed data back to Firebase to keep it in sync
+        saveToFirebase(data).catch(() => {});
       }
     }
 
@@ -556,28 +587,27 @@ export function getDb(): DatabaseSchema {
   }
 }
 
-export async function saveToSupabase(data: DatabaseSchema) {
+export async function saveToFirebase(data: DatabaseSchema) {
   try {
     const timestamp = new Date().toISOString();
-    const { error } = await supabase
-      .from('gzq_db_store')
-      .upsert({ id: 1, data: data, updated_at: timestamp });
-    if (error) {
-      console.error("CRITICAL Supabase Sync Error (table gzq_db_store):", error.message, error);
-    } else {
-      console.log("Database state successfully synchronized with Supabase table gzq_db_store.");
-      lastSyncedAt = timestamp; // Prevent thinking we are stale on the next read of the same lambda
-    }
+    const docRef = doc(db, 'gzq_db_store', '1');
+    await setDoc(docRef, { id: 1, data: data, updated_at: timestamp });
+    console.log("Database state successfully synchronized with Firebase collection gzq_db_store.");
+    lastSyncedAt = timestamp; // Prevent thinking we are stale on the next read of the same lambda
   } catch (err) {
-    console.error("Exception saving to Supabase gzq_db_store:", err);
+    console.error("Exception saving to Firebase gzq_db_store:", err);
   }
 }
 
-export async function saveIngredientsToSupabase(ingredients: Ingredient[]) {
+export async function saveIngredientsToFirebase(ingredients: Ingredient[]) {
   try {
-    const { error } = await supabase
-      .from('ingredients')
-      .upsert(ingredients.map(i => ({
+    // We can use a batched write to save ingredients in chunks of 500
+    let batch = writeBatch(db);
+    let count = 0;
+    
+    for (const i of ingredients) {
+      const docRef = doc(db, 'ingredients', String(i.id));
+      batch.set(docRef, {
         id: i.id,
         code: i.code,
         category_id: i.category_id,
@@ -592,100 +622,97 @@ export async function saveIngredientsToSupabase(ingredients: Ingredient[]) {
         created_at: i.created_at || new Date().toISOString(),
         updated_at: new Date().toISOString(),
         deleted_at: i.deleted_at || null
-      })));
-    if (error) {
-      console.error("CRITICAL Supabase Sync Error (table ingredients):", error.message, error);
-    } else {
-      console.log(`Successfully synced ${ingredients.length} ingredients with Supabase ingredients table.`);
-    }
-  } catch (err) {
-    console.error("Exception saving to Supabase ingredients table:", err);
-  }
-}
-
-export async function syncIngredientsFromSupabase() {
-  try {
-    console.log("Checking for real ingredients table in Supabase...");
-    const { data, error } = await supabase
-      .from('ingredients')
-      .select('*')
-      .order('id', { ascending: true });
-
-    if (error) {
-      if (error.message.includes('relation "ingredients" does not exist')) {
-        console.log("Table 'ingredients' does not exist yet on Supabase. Using baseline JSON ingredients.");
-      } else {
-        console.warn("Could not retrieve ingredients from Supabase:", error.message);
+      });
+      count++;
+      
+      if (count % 500 === 0) {
+        await batch.commit();
+        batch = writeBatch(db);
       }
-      return;
     }
-
-    if (data && data.length > 0) {
-      console.log(`Found ${data.length} ingredients from Supabase! Synchronizing with local cache...`);
-      const db = getDb();
-      
-      const mappedIngredients: Ingredient[] = data.map((item: any) => ({
-        id: item.id,
-        code: item.code,
-        category_id: item.category_id || 1,
-        name: item.name,
-        bdd: Number(item.bdd) || 100,
-        energy: Number(item.energy) || 0,
-        protein: Number(item.protein) || 0,
-        fat: Number(item.fat) || 0,
-        carbohydrate: Number(item.carbohydrate) || 0,
-        fiber: Number(item.fiber) || 0,
-        price: Number(item.price) || 0,
-        created_at: item.created_at || new Date().toISOString(),
-        updated_at: item.updated_at || new Date().toISOString(),
-        deleted_at: item.deleted_at || undefined
-      }));
-      
-      db.ingredients = mappedIngredients.sort((a, b) => a.id - b.id);
-      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), 'utf-8');
-      console.log("Successfully synchronized local ingredients cache with Supabase table!");
+    
+    if (count % 500 !== 0) {
+      await batch.commit();
     }
+    
+    console.log(`Successfully synced ${ingredients.length} ingredients with Firebase ingredients collection.`);
   } catch (err) {
-    console.error("Error during ingredients Supabase sync:", err);
+    console.error("Exception saving to Firebase ingredients collection:", err);
   }
 }
 
-async function syncFromSupabaseInternal() {
+export async function syncIngredientsFromFirebase() {
   try {
-    console.log("Checking for database state on Supabase backend...");
-    const { data, error } = await supabase
-      .from('gzq_db_store')
-      .select('data, updated_at')
-      .eq('id', 1)
-      .maybeSingle();
+    console.log("Checking for ingredients collection in Firebase...");
+    const querySnapshot = await getDocs(collection(db, 'ingredients'));
 
-    if (error) {
-      console.warn("Could not retrieve state from Supabase (maybe table 'gzq_db_store' is missing):", error.message);
+    if (querySnapshot.empty) {
+      console.log("Collection 'ingredients' does not exist or is empty in Firebase. Using baseline JSON ingredients.");
       return;
     }
 
-    if (data && data.data) {
-      console.log("Existing database state found on Supabase! Synchronizing local file...");
+    const list: any[] = [];
+    querySnapshot.forEach((docSnap) => {
+      list.push(docSnap.data());
+    });
+
+    console.log(`Found ${list.length} ingredients from Firebase! Synchronizing with local cache...`);
+    const dbData = getDb();
+    
+    const mappedIngredients: Ingredient[] = list.map((item: any) => ({
+      id: Number(item.id),
+      code: item.code,
+      category_id: item.category_id || 1,
+      name: item.name,
+      bdd: Number(item.bdd) || 100,
+      energy: Number(item.energy) || 0,
+      protein: Number(item.protein) || 0,
+      fat: Number(item.fat) || 0,
+      carbohydrate: Number(item.carbohydrate) || 0,
+      fiber: Number(item.fiber) || 0,
+      price: Number(item.price) || 0,
+      created_at: item.created_at || new Date().toISOString(),
+      updated_at: item.updated_at || new Date().toISOString(),
+      deleted_at: item.deleted_at || undefined
+    }));
+    
+    dbData.ingredients = mappedIngredients.sort((a, b) => a.id - b.id);
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(dbData, null, 2), 'utf-8');
+    console.log("Successfully synchronized local ingredients cache with Firebase collection!");
+  } catch (err) {
+    console.error("Error during ingredients Firebase sync:", err);
+  }
+}
+
+async function syncFromFirebaseInternal() {
+  try {
+    console.log("Checking for database state on Firebase backend...");
+    const docRef = doc(db, 'gzq_db_store', '1');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists() && docSnap.data()?.data) {
+      const data = docSnap.data();
+      console.log("Existing database state found on Firebase! Synchronizing local file...");
       writeDbFileAtomic(data.data);
       lastSyncedAt = data.updated_at || new Date().toISOString();
     } else {
-      console.log("No existing database state on Supabase yet. Synchronizing local file as base state...");
+      console.log("No existing database state on Firebase yet. Synchronizing local file as base state...");
       const baseline = getDb();
-      await saveToSupabase(baseline);
+      await saveToFirebase(baseline);
     }
 
-    // Try to sync from the dedicated 'ingredients' table if it exists
-    await syncIngredientsFromSupabase();
+    // Try to sync from the dedicated 'ingredients' collection
+    await syncIngredientsFromFirebase();
   } catch (err) {
-    console.error("Error during Supabase fetch:", err);
+    console.error("Error during Firebase fetch:", err);
   }
 }
 
-export async function syncFromSupabase() {
+export async function syncFromFirebase() {
   if (activeSyncPromise) {
     return activeSyncPromise;
   }
-  activeSyncPromise = syncFromSupabaseInternal().finally(() => {
+  activeSyncPromise = syncFromFirebaseInternal().finally(() => {
     activeSyncPromise = null;
   });
   return activeSyncPromise;
@@ -697,9 +724,9 @@ export async function saveDb(data: DatabaseSchema): Promise<void> {
   const currentSave = saveQueuePromise.then(async () => {
     try {
       writeDbFileAtomic(data);
-      // Await the push to Supabase to guarantee synchronization
-      await saveToSupabase(data);
-      await saveIngredientsToSupabase(data.ingredients);
+      // Await the push to Firebase to guarantee synchronization
+      await saveToFirebase(data);
+      await saveIngredientsToFirebase(data.ingredients);
     } catch (err) {
       console.error("Failed to write to database file", err);
     }

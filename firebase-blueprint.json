@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "DbStore": {
+      "title": "DbStore",
+      "description": "Entire application state backup and sync",
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "data": { "type": "object" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "data", "updated_at"]
+    },
+    "Ingredient": {
+      "title": "Ingredient",
+      "description": "Nutritional and pricing details for ingredients",
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "code": { "type": "string" },
+        "category_id": { "type": "integer" },
+        "name": { "type": "string" },
+        "bdd": { "type": "number" },
+        "energy": { "type": "number" },
+        "protein": { "type": "number" },
+        "fat": { "type": "number" },
+        "carbohydrate": { "type": "number" },
+        "fiber": { "type": "number" },
+        "price": { "type": "number" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "deleted_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "code", "category_id", "name", "bdd", "energy", "protein", "fat", "carbohydrate", "fiber", "price"]
+    }
+  },
+  "firestore": {
+    "/gzq_db_store/{storeId}": {
+      "schema": "DbStore",
+      "description": "Sync storage for GzQ Plan database"
+    },
+    "/ingredients/{ingredientId}": {
+      "schema": "Ingredient",
+      "description": "Sync storage for GzQ ingredients library"
+    }
+  }
+}

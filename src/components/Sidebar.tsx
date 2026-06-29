@@ -23,10 +23,10 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void;
   currentUser: UserType | null;
   onLogout: () => void;
-  supabaseConnected?: boolean;
+  firebaseConnected?: boolean;
 }
 
-export default function Sidebar({ activeTab, setActiveTab, currentUser, onLogout, supabaseConnected }: SidebarProps) {
+export default function Sidebar({ activeTab, setActiveTab, currentUser, onLogout, firebaseConnected }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, roles: ['Administrator', 'Pengawas Gizi'] },
     { id: 'periods', name: 'Periode & Hari Menu', icon: Calendar, roles: ['Administrator', 'Pengawas Gizi'] },
@@ -53,10 +53,10 @@ export default function Sidebar({ activeTab, setActiveTab, currentUser, onLogout
         <div>
           <h1 className="text-xl font-bold tracking-tight text-white leading-none mb-1">GzQ Plan</h1>
           <span className="text-[10px] font-mono text-emerald-400 tracking-wider uppercase font-semibold leading-none block mb-1">Nutrition Engine v1.0</span>
-          {supabaseConnected && (
+          {firebaseConnected && (
             <span className="inline-flex items-center gap-1.5 text-[9px] font-bold text-sky-400 font-sans tracking-wider uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-              Supabase Backend
+              Firebase Cloud
             </span>
           )}
         </div>

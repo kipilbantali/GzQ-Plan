@@ -19,7 +19,7 @@ interface MasterDataProps {
   onUpdateIngredient: (id: number, data: Partial<Ingredient>) => void;
   onDeleteIngredient: (id: number) => void;
   onImportIngredients: (list: any[]) => void;
-  supabaseStatus?: {
+  firebaseStatus?: {
     connected: boolean;
     storeOk: boolean;
     ingredientsOk: boolean;
@@ -41,7 +41,7 @@ export default function MasterData({
   onUpdateIngredient,
   onDeleteIngredient,
   onImportIngredients,
-  supabaseStatus
+  firebaseStatus
 }: MasterDataProps) {
   const [activeSubTab, setActiveSubTab] = useState<'ingredients' | 'groups' | 'users'>('ingredients');
 
@@ -422,34 +422,19 @@ export default function MasterData({
           ======================================================= */}
       {activeSubTab === 'ingredients' && (
         <div className="space-y-4 animate-fade-in">
-          {supabaseStatus?.ingredientsRlsError && (
+          {firebaseStatus?.ingredientsRlsError && (
             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-sm text-amber-900 space-y-3 shadow-sm">
               <div className="flex items-start gap-3">
                 <span className="text-xl">⚠️</span>
                 <div>
-                  <h4 className="font-extrabold text-amber-950 text-base">Row-Level Security (RLS) Supabase Membatasi Penyimpanan</h4>
+                  <h4 className="font-extrabold text-amber-950 text-base">Firebase Security Rules Membatasi Penyimpanan</h4>
                   <p className="mt-1 text-amber-800 leading-relaxed">
-                    Tabel <code className="bg-amber-100 px-1.5 py-0.5 rounded font-mono text-xs text-amber-950">ingredients</code> di Supabase Anda mengaktifkan RLS, tetapi belum memiliki kebijakan (policy) akses publik. Hal ini menyebabkan penambahan atau pengubahan baris bahan pangan ditolak oleh Supabase.
+                    Firestore Database di Firebase Anda mengaktifkan Security Rules, tetapi belum mengizinkan akses tulis publik secara penuh untuk pengujian atau autentikasi pengguna. Hal ini menyebabkan penambahan atau pengubahan baris bahan pangan ditolak oleh Firebase.
                   </p>
                 </div>
               </div>
-              <div className="bg-slate-950 text-slate-100 rounded-xl p-4 font-mono text-xs border border-slate-800 shadow-inner">
-                <div className="flex justify-between items-center mb-2 pb-2 border-b border-slate-800/80">
-                  <span className="text-slate-400 font-sans text-[10px] uppercase tracking-wider font-bold">Jalankan perintah SQL ini di SQL Editor Supabase Anda:</span>
-                  <button 
-                    onClick={() => {
-                      navigator.clipboard.writeText(`ALTER TABLE public.ingredients DISABLE ROW LEVEL SECURITY;`);
-                      try { window.alert("Perintah SQL disalin ke papan klip!"); } catch (_) {}
-                    }}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-2 py-1 rounded transition-all text-[10px] font-bold"
-                  >
-                    Salin SQL
-                  </button>
-                </div>
-                <code>ALTER TABLE public.ingredients DISABLE ROW LEVEL SECURITY;</code>
-              </div>
               <p className="text-xs text-amber-700 leading-relaxed">
-                *Catatan: Saat ini, seluruh data Anda tetap tersinkronisasi dengan aman di tabel global <code className="bg-amber-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-amber-950">gzq_db_store</code>, namun untuk mengaktifkan sinkronisasi ke tabel terpisah <code className="bg-amber-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-amber-950">ingredients</code> silakan jalankan query di atas.
+                *Catatan: Pastikan Anda telah memasang file <code className="bg-amber-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-amber-950">firestore.rules</code> yang mengizinkan akses baca dan tulis bagi koleksi-koleksi aplikasi Anda.
               </p>
             </div>
           )}

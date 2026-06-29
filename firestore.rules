@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net - default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // GzQ Plan DB sync store
+    match /gzq_db_store/{storeId} {
+      allow read, write: if true;
+    }
+
+    // GzQ ingredients library sync
+    match /ingredients/{ingredientId} {
+      allow read, write: if true;
+    }
+  }
+}

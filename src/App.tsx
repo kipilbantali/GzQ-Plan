@@ -124,8 +124,8 @@ export default function App() {
     setUsers(usersData);
   };
 
-  const [supabaseConnected, setSupabaseConnected] = useState(false);
-  const [supabaseStatus, setSupabaseStatus] = useState<{
+  const [firebaseConnected, setFirebaseConnected] = useState(false);
+  const [firebaseStatus, setFirebaseStatus] = useState<{
     connected: boolean;
     storeOk: boolean;
     ingredientsOk: boolean;
@@ -134,21 +134,21 @@ export default function App() {
     projectUrl: string;
   } | null>(null);
 
-  // Check Supabase Backend connectivity
+  // Check Firebase Backend connectivity
   useEffect(() => {
-    const checkSupabase = async () => {
+    const checkFirebase = async () => {
       try {
-        const res = await fetch('/api/v1/supabase-status');
+        const res = await fetch('/api/v1/firebase-status');
         const body = await res.json();
-        setSupabaseStatus(body);
+        setFirebaseStatus(body);
         if (body.success && body.connected) {
-          setSupabaseConnected(true);
+          setFirebaseConnected(true);
         }
       } catch (err) {
-        console.error("Supabase status check failed", err);
+        console.error("Firebase status check failed", err);
       }
     };
-    checkSupabase();
+    checkFirebase();
   }, []);
 
   // Check login session on startup
@@ -717,7 +717,7 @@ export default function App() {
           setActiveTab={setActiveTab}
           currentUser={currentUser}
           onLogout={handleLogout}
-          supabaseConnected={supabaseConnected}
+          firebaseConnected={firebaseConnected}
         />
       </div>
 
@@ -809,7 +809,7 @@ export default function App() {
             onUpdateIngredient={handleUpdateIngredient}
             onDeleteIngredient={handleDeleteIngredient}
             onImportIngredients={handleImportIngredients}
-            supabaseStatus={supabaseStatus}
+            firebaseStatus={firebaseStatus}
           />
         )}
 

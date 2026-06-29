@@ -4,12 +4,13 @@
  */
 
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ override: true });
 
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import { getDb, saveDb, calculateNutrition, logAudit, syncFromSupabase, supabase, ensureDbSynced } from './server/db';
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import { getDb, saveDb, calculateNutrition, logAudit, syncFromFirebase, ensureDbSynced, db } from './server/db';
 import {
   User,
   UserRole,
@@ -1192,73 +1193,53 @@ app.get('/api/v1/audit-logs', requireAuth, (req, res) => {
   res.json({ success: true, data: db.audit_logs });
 });
 
-app.get('/api/v1/supabase-status', async (req, res) => {
+app.get(['/api/v1/supabase-status', '/api/v1/firebase-status'], async (req, res) => {
   let storeOk = false;
   let ingredientsOk = false;
   let ingredientsRlsError = false;
   let errorMessage = '';
 
   try {
-    // Check gzq_db_store table
-    const { error: storeError } = await supabase
-      .from('gzq_db_store')
-      .select('id')
-      .limit(1);
-    storeOk = !storeError;
-    if (storeError) {
-      errorMessage = storeError.message;
-    }
+    // Check gzq_db_store document
+    const docRef = doc(db, 'gzq_db_store', '1');
+    const docSnap = await getDoc(docRef);
+    storeOk = docSnap.exists();
 
-    // Check ingredients table readability
-    const { error: ingReadError } = await supabase
-      .from('ingredients')
-      .select('id')
-      .limit(1);
+    // Check ingredients readability & writability by testing an write with ID "0"
+    const testItem = {
+      id: 0,
+      code: 'TEMP_RLS_CHECK',
+      category_id: 1,
+      name: 'RLS Check Temp Item',
+      bdd: 100,
+      energy: 0,
+      protein: 0,
+      fat: 0,
+      carbohydrate: 0,
+      fiber: 0,
+      price: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
 
-    if (ingReadError) {
-      errorMessage = errorMessage || ingReadError.message;
-    } else {
-      // Check ingredients table writeability by testing an upsert with dummy ID 0
-      const testItem = {
-        id: 0,
-        code: 'TEMP_RLS_CHECK',
-        category_id: 1,
-        name: 'RLS Check Temp Item',
-        bdd: 100,
-        energy: 0,
-        protein: 0,
-        fat: 0,
-        carbohydrate: 0,
-        fiber: 0,
-        price: 0,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      
-      const { error: ingWriteError } = await supabase
-        .from('ingredients')
-        .upsert([testItem]);
+    const ingDocRef = doc(db, 'ingredients', '0');
+    await setDoc(ingDocRef, testItem);
+    ingredientsOk = true;
 
-      if (ingWriteError) {
-        errorMessage = ingWriteError.message;
-        if (ingWriteError.code === '42501' || ingWriteError.message.includes('row-level security') || ingWriteError.message.includes('policy')) {
-          ingredientsRlsError = true;
-        }
-      } else {
-        ingredientsOk = true;
-        // Clean up
-        await supabase.from('ingredients').delete().eq('id', 0);
-      }
-    }
+    // Clean up
+    await deleteDoc(ingDocRef);
   } catch (err: any) {
     errorMessage = err.message || 'Unknown error';
+    if (err.message && (err.message.includes('permission') || err.message.includes('denied'))) {
+      ingredientsRlsError = true;
+    }
   }
 
   res.json({
     success: true,
-    projectUrl: process.env.SUPABASE_URL || 'https://bvzvydkasblggorengus.supabase.co',
-    projectId: 'bvzvydkasblggorengus',
-    connected: storeOk,
+    projectUrl: 'https://console.firebase.google.com/project/gzqplan/firestore',
+    projectId: 'gzqplan',
+    connected: storeOk || ingredientsOk,
     storeOk,
     ingredientsOk,
     ingredientsRlsError,
@@ -1281,11 +1262,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // VITE AND DEVELOPMENT SETUP
 // ==========================================
 async function startServer() {
-  // Sync DB with Supabase on startup
+  // Sync DB with Firebase on startup
   try {
-    await syncFromSupabase();
+    await syncFromFirebase();
   } catch (err) {
-    console.error("Supabase sync on startup failed:", err);
+    console.error("Firebase sync on startup failed:", err);
   }
 
   const isProd = process.env.NODE_ENV === "production" || __filename.endsWith('.cjs');
