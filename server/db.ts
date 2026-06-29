@@ -52,39 +52,66 @@ const DB_FILE_PATH = (process.env.NODE_ENV === 'production' || isServerless)
 
 const WORKSPACE_DB_PATH = path.join(process.cwd(), 'gzq_db.json');
 
+function writeDbFileAtomic(data: any) {
+  const tempPath = DB_FILE_PATH + '.tmp';
+  fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf-8');
+  fs.renameSync(tempPath, DB_FILE_PATH);
+}
+
 let lastSyncedAt: string | null = null;
+let lastCheckedAt = 0;
+let activeSyncPromise: Promise<void> | null = null;
 
 export async function ensureDbSynced() {
-  try {
-    // 1. Check the updated_at in Supabase gzq_db_store
-    const { data, error } = await supabase
-      .from('gzq_db_store')
-      .select('updated_at')
-      .eq('id', 1)
-      .maybeSingle();
-
-    if (error) {
-      console.warn("Could not check updated_at on Supabase:", error.message);
-      // Fallback: if local file doesn't exist, run full sync anyway
-      if (!fs.existsSync(DB_FILE_PATH)) {
-        await syncFromSupabase();
-      }
-      return;
-    }
-
-    const remoteUpdatedAt = data?.updated_at || null;
-
-    // 2. If remote has a different updated_at, or if local file doesn't exist, we must sync
-    if (!fs.existsSync(DB_FILE_PATH) || remoteUpdatedAt !== lastSyncedAt || !lastSyncedAt) {
-      console.log(`Local database is stale or missing (Local: ${lastSyncedAt}, Remote: ${remoteUpdatedAt}). Syncing...`);
-      await syncFromSupabase();
-      if (remoteUpdatedAt) {
-        lastSyncedAt = remoteUpdatedAt;
-      }
-    }
-  } catch (err) {
-    console.error("Failed to sync from Supabase in ensureDbSynced:", err);
+  if (activeSyncPromise) {
+    return activeSyncPromise;
   }
+
+  // Throttle checking Supabase updated_at to at most once every 5 seconds
+  if (Date.now() - lastCheckedAt < 5000 && fs.existsSync(DB_FILE_PATH)) {
+    return;
+  }
+
+  activeSyncPromise = (async () => {
+    try {
+      lastCheckedAt = Date.now();
+      
+      // 1. Check the updated_at in Supabase gzq_db_store
+      const { data, error } = await supabase
+        .from('gzq_db_store')
+        .select('updated_at')
+        .eq('id', 1)
+        .maybeSingle();
+
+      if (error) {
+        console.warn("Could not check updated_at on Supabase:", error.message);
+        // Fallback: if local file doesn't exist, run full sync anyway
+        if (!fs.existsSync(DB_FILE_PATH)) {
+          await syncFromSupabaseInternal();
+        }
+        return;
+      }
+
+      const remoteUpdatedAt = data?.updated_at || null;
+      const remoteTime = remoteUpdatedAt ? new Date(remoteUpdatedAt).getTime() : 0;
+      const localTime = lastSyncedAt ? new Date(lastSyncedAt).getTime() : 0;
+
+      // 2. If remote has a different updated_at, or if local file doesn't exist, we must sync
+      if (!fs.existsSync(DB_FILE_PATH) || remoteTime !== localTime || !lastSyncedAt) {
+        console.log(`Local database is stale or missing (Local: ${lastSyncedAt}, Remote: ${remoteUpdatedAt}). Syncing...`);
+        await syncFromSupabaseInternal();
+        if (remoteUpdatedAt) {
+          lastSyncedAt = remoteUpdatedAt;
+        }
+      }
+    } catch (err) {
+      console.error("Failed to sync from Supabase in ensureDbSynced:", err);
+    } finally {
+      activeSyncPromise = null;
+    }
+  })();
+
+  return activeSyncPromise;
 }
 
 
@@ -284,7 +311,9 @@ export function getDb(): DatabaseSchema {
         const content = fs.readFileSync(WORKSPACE_DB_PATH, 'utf-8');
         // Validate JSON before writing
         JSON.parse(content); 
-        fs.writeFileSync(DB_FILE_PATH, content, 'utf-8');
+        const tempPath = DB_FILE_PATH + '.tmp';
+        fs.writeFileSync(tempPath, content, 'utf-8');
+        fs.renameSync(tempPath, DB_FILE_PATH);
       } catch (copyErr) {
         console.error("Failed to copy workspace baseline DB file, will generate fresh copy instead:", copyErr);
       }
@@ -351,13 +380,37 @@ export function getDb(): DatabaseSchema {
       ]
     };
 
-    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(initialDb, null, 2), 'utf-8');
+    writeDbFileAtomic(initialDb);
     return initialDb;
   }
 
   try {
-    const raw = fs.readFileSync(DB_FILE_PATH, 'utf-8');
-    const data = JSON.parse(raw);
+    // Robust read & parse with 5 retry attempts to handle concurrent read-write contention smoothly
+    let raw = '';
+    let data: any = null;
+    let attempts = 5;
+    while (attempts > 0) {
+      try {
+        raw = fs.readFileSync(DB_FILE_PATH, 'utf-8');
+        if (raw.trim()) {
+          data = JSON.parse(raw);
+          break;
+        }
+      } catch (parseErr) {
+        console.warn(`Database file read contention, retrying... (${attempts} attempts remaining)`);
+        attempts--;
+        if (attempts > 0) {
+          const sleepTime = 30;
+          const start = Date.now();
+          while (Date.now() - start < sleepTime) {} // Synchronous spin wait
+        }
+      }
+    }
+
+    if (!data) {
+      console.error("Critical: Failed to read/parse database file after retries. Using in-memory fallback to prevent state loss.");
+      throw new Error("Database is temporarily locked/unparseable, please retry request.");
+    }
     
     let dataRepaired = false;
     if (!data.users || !Array.isArray(data.users) || data.users.length === 0) {
@@ -427,7 +480,7 @@ export function getDb(): DatabaseSchema {
 
     if (dataRepaired) {
       console.log("Database missing crucial fields, automatically repaired with default/empty baseline.");
-      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+      writeDbFileAtomic(data);
       saveToSupabase(data).catch(() => {});
     }
 
@@ -459,7 +512,7 @@ export function getDb(): DatabaseSchema {
         });
       }
       if (migratedName) {
-        fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+        writeDbFileAtomic(data);
         // Push the renamed data back to Supabase to keep it in sync
         saveToSupabase(data).catch(() => {});
       }
@@ -482,7 +535,7 @@ export function getDb(): DatabaseSchema {
         }
       });
       if (migrated) {
-        fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+        writeDbFileAtomic(data);
       }
     }
     
@@ -597,7 +650,7 @@ export async function syncIngredientsFromSupabase() {
   }
 }
 
-export async function syncFromSupabase() {
+async function syncFromSupabaseInternal() {
   try {
     console.log("Checking for database state on Supabase backend...");
     const { data, error } = await supabase
@@ -613,7 +666,7 @@ export async function syncFromSupabase() {
 
     if (data && data.data) {
       console.log("Existing database state found on Supabase! Synchronizing local file...");
-      fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data.data, null, 2), 'utf-8');
+      writeDbFileAtomic(data.data);
       lastSyncedAt = data.updated_at || new Date().toISOString();
     } else {
       console.log("No existing database state on Supabase yet. Synchronizing local file as base state...");
@@ -628,9 +681,19 @@ export async function syncFromSupabase() {
   }
 }
 
+export async function syncFromSupabase() {
+  if (activeSyncPromise) {
+    return activeSyncPromise;
+  }
+  activeSyncPromise = syncFromSupabaseInternal().finally(() => {
+    activeSyncPromise = null;
+  });
+  return activeSyncPromise;
+}
+
 export async function saveDb(data: DatabaseSchema) {
   try {
-    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    writeDbFileAtomic(data);
     // Await the push to Supabase to guarantee synchronization
     await saveToSupabase(data);
     await saveIngredientsToSupabase(data.ingredients);
