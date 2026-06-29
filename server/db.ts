@@ -691,15 +691,21 @@ export async function syncFromSupabase() {
   return activeSyncPromise;
 }
 
-export async function saveDb(data: DatabaseSchema) {
-  try {
-    writeDbFileAtomic(data);
-    // Await the push to Supabase to guarantee synchronization
-    await saveToSupabase(data);
-    await saveIngredientsToSupabase(data.ingredients);
-  } catch (err) {
-    console.error("Failed to write to database file", err);
-  }
+let saveQueuePromise: Promise<void> = Promise.resolve();
+
+export async function saveDb(data: DatabaseSchema): Promise<void> {
+  const currentSave = saveQueuePromise.then(async () => {
+    try {
+      writeDbFileAtomic(data);
+      // Await the push to Supabase to guarantee synchronization
+      await saveToSupabase(data);
+      await saveIngredientsToSupabase(data.ingredients);
+    } catch (err) {
+      console.error("Failed to write to database file", err);
+    }
+  });
+  saveQueuePromise = currentSave.catch(() => {});
+  return currentSave;
 }
 
 // Relational helper functions for GzQ Plan nutrition calculations

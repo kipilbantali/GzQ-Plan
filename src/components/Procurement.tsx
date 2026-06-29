@@ -54,16 +54,36 @@ export default function Procurement({
   const [selectedPeriodId, setSelectedPeriodId] = useState<number | null>(periods[0]?.id || null);
   const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (periods.length > 0) {
+      if (selectedPeriodId === null || !periods.some(p => p.id === selectedPeriodId)) {
+        setSelectedPeriodId(periods[0].id);
+      }
+    } else {
+      setSelectedPeriodId(null);
+    }
+  }, [periods, selectedPeriodId]);
+
+  const activePeriodDays = selectedPeriodId ? menuDays.filter(d => d.period_id === selectedPeriodId && d.distribution_day) : [];
+
+  useEffect(() => {
+    if (activePeriodDays.length > 0) {
+      if (!selectedDayId || !activePeriodDays.some(d => d.id === selectedDayId)) {
+        setSelectedDayId(activePeriodDays[0].id);
+      }
+    } else {
+      setSelectedDayId(null);
+    }
+  }, [selectedPeriodId, activePeriodDays, selectedDayId]);
+
+  // Active procurement order for the selected day from server
+  const activeOrder = procurementOrders.find(o => o.menu_day_id === selectedDayId);
+
   // Manual bumbu inputs
   const [manualName, setManualName] = useState('');
   const [manualQty, setManualQty] = useState<number>(1);
   const [manualUnit, setManualUnit] = useState('bungkus');
   const [manualPrice, setManualPrice] = useState<number>(5000);
-
-  const activePeriodDays = selectedPeriodId ? menuDays.filter(d => d.period_id === selectedPeriodId && d.distribution_day) : [];
-
-  // Active procurement order for the selected day from server
-  const activeOrder = procurementOrders.find(o => o.menu_day_id === selectedDayId);
 
   // Local state for draft editing and auto/manual saving
   const [localOrder, setLocalOrder] = useState<ProcurementOrder | null>(null);

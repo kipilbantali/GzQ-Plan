@@ -506,15 +506,15 @@ app.post('/api/v1/periods', requireAuth, async (req, res) => {
   };
 
   // Generate Menu Days automatically (BR-001: 14 days operational, 12 days menu, exclude Sundays)
-  const start = new Date(start_date);
+  const [year, month, day] = start_date.split('-').map(Number);
   const menuDays: MenuDay[] = [];
   let dayNum = 1;
   const dayStartId = db.menu_days.length > 0 ? Math.max(...db.menu_days.map(d => d.id)) + 1 : 1;
 
   for (let i = 0; i < 14; i++) {
-    const current = new Date(start);
-    current.setDate(start.getDate() + i);
-    const isSunday = current.getDay() === 0;
+    const current = new Date(Date.UTC(year, month - 1, day));
+    current.setUTCDate(current.getUTCDate() + i);
+    const isSunday = current.getUTCDay() === 0;
 
     menuDays.push({
       id: dayStartId + i,

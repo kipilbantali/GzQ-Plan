@@ -218,6 +218,8 @@ export default function App() {
       if (body.success) {
         showToast("Periode baru dan 12 Hari Menu berhasil digenerate otomatis!");
         await fetchData();
+      } else {
+        showToast(body.message || "Gagal membuat periode.", "error");
       }
     } catch (err) {
       showToast("Gagal menyimpan periode.", "error");
@@ -231,6 +233,8 @@ export default function App() {
       if (body.success) {
         showToast("Periode beserta datanya berhasil dihapus.", "info");
         await fetchData();
+      } else {
+        showToast(body.message || "Gagal menghapus periode.", "error");
       }
     } catch (err) {
       showToast("Gagal menghapus periode.", "error");
@@ -249,6 +253,8 @@ export default function App() {
       if (body.success) {
         showToast("Template Menu berhasil disimpan.");
         await fetchData();
+      } else {
+        showToast(body.message || "Gagal menyimpan template.", "error");
       }
     } catch (err) {
       showToast("Gagal menyimpan template.", "error");
@@ -266,6 +272,8 @@ export default function App() {
       if (body.success) {
         showToast("Template Menu berhasil diperbarui.");
         await fetchData();
+      } else {
+        showToast(body.message || "Gagal memperbarui template.", "error");
       }
     } catch (err) {
       showToast("Gagal memperbarui template.", "error");
@@ -279,6 +287,8 @@ export default function App() {
       if (body.success) {
         showToast("Template Menu berhasil dihapus.", "info");
         await fetchData();
+      } else {
+        showToast(body.message || "Gagal menghapus template.", "error");
       }
     } catch (err) {
       showToast("Gagal menghapus template.", "error");

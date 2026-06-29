@@ -68,6 +68,24 @@ export default function Planning({
   const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
   const [selectedGroupId, setSelectedGroupId] = useState<number>(beneficiaryGroups[0]?.id || 1);
 
+  useEffect(() => {
+    if (periods.length > 0) {
+      if (selectedPeriodId === null || !periods.some(p => p.id === selectedPeriodId)) {
+        setSelectedPeriodId(periods[0].id);
+      }
+    } else {
+      setSelectedPeriodId(null);
+    }
+  }, [periods, selectedPeriodId]);
+
+  useEffect(() => {
+    if (beneficiaryGroups.length > 0) {
+      if (!beneficiaryGroups.some(g => g.id === selectedGroupId)) {
+        setSelectedGroupId(beneficiaryGroups[0].id);
+      }
+    }
+  }, [beneficiaryGroups, selectedGroupId]);
+
   // Selector search / overlays
   const [showAddIngredientCompId, setShowAddIngredientCompId] = useState<number | null>(null);
   const [ingSearchQuery, setIngSearchQuery] = useState('');
@@ -190,10 +208,14 @@ export default function Planning({
   // Trigger default Day selection
   const activePeriodDays = selectedPeriodId ? menuDays.filter(d => d.period_id === selectedPeriodId && d.distribution_day) : [];
   useEffect(() => {
-    if (activePeriodDays.length > 0 && !selectedDayId) {
-      setSelectedDayId(activePeriodDays[0].id);
+    if (activePeriodDays.length > 0) {
+      if (!selectedDayId || !activePeriodDays.some(d => d.id === selectedDayId)) {
+        setSelectedDayId(activePeriodDays[0].id);
+      }
+    } else {
+      setSelectedDayId(null);
     }
-  }, [selectedPeriodId, activePeriodDays]);
+  }, [selectedPeriodId, activePeriodDays, selectedDayId]);
 
   const currentDay = menuDays.find(d => d.id === selectedDayId);
   const currentGroup = beneficiaryGroups.find(g => g.id === selectedGroupId);

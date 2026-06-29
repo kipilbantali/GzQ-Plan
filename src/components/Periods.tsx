@@ -23,6 +23,16 @@ export default function Periods({ periods, menuDays, onCreatePeriod, onDeletePer
   const [selectedPeriodId, setSelectedPeriodId] = useState<number | null>(periods[0]?.id || null);
   const [deletingPeriodId, setDeletingPeriodId] = useState<number | null>(null);
 
+  React.useEffect(() => {
+    if (periods.length > 0) {
+      if (selectedPeriodId === null || !periods.some(p => p.id === selectedPeriodId)) {
+        setSelectedPeriodId(periods[0].id);
+      }
+    } else {
+      setSelectedPeriodId(null);
+    }
+  }, [periods, selectedPeriodId]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !startDate || !endDate) return;

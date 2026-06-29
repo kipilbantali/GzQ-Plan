@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FileBarChart2, Printer, Check, ClipboardList, ShoppingCart, Calendar } from 'lucide-react';
 import { Period, MenuDay, MenuPlan, BeneficiaryGroup, ProcurementOrder, Ingredient } from '../types';
 
@@ -25,6 +25,16 @@ export default function Reports({
   const [selectedPeriodId, setSelectedPeriodId] = useState<number | null>(periods[0]?.id || null);
   const [reportType, setReportType] = useState<'siklus' | 'gizi' | 'rekap' | 'belanja'>('siklus');
   const [showPrintIframeModal, setShowPrintIframeModal] = useState(false);
+
+  useEffect(() => {
+    if (periods.length > 0) {
+      if (selectedPeriodId === null || !periods.some(p => p.id === selectedPeriodId)) {
+        setSelectedPeriodId(periods[0].id);
+      }
+    } else {
+      setSelectedPeriodId(null);
+    }
+  }, [periods, selectedPeriodId]);
 
   const selectedPeriod = periods.find(p => p.id === selectedPeriodId);
   const activeDays = selectedPeriod ? menuDays.filter(d => d.period_id === selectedPeriod.id && d.distribution_day) : [];
